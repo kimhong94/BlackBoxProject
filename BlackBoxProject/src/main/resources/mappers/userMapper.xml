@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackboxproject.mapper.UserMapper">
+
+	<select id="login" resultType="UserVO">
+
+		select user_id, user_pw,
+		user_name,user_nick,user_has_auth, user_college, user_email,
+		user_phone
+		from user where
+		user_id
+		=
+		#{user_id}
+		and user_pw = #{user_pw}
+
+	</select>
+
+	<update id="keepLogin">
+		update user set user_sessionKey = #{sessionId},
+		user_sessionLimit =
+		#{next} where user_id = #{user_id}
+	</update>
+
+	<select id="checkUserWithSessionKey" resultType="UserVO">
+		select * from
+		user where user_sessionKey = #{value} and
+		user_sessionlimit > now()
+	</select>
+
+	<insert id="create">
+		insert into user (user_id, user_pw, user_nick,
+		user_name, user_email, user_auth, user_phone, user_sex, user_has_auth,
+		user_college)
+		values (#{user_id},#{user_pw},#{user_nick},
+		#{user_name},#{user_email},#{user_auth},#{user_phone},#{user_sex},0,#{user_college})
+	</insert>
+
+	<select id="checkId" resultType="int">
+
+		SELECT COUNT(*) AS CNT
+		FROM user
+		WHERE 1 = 1
+		AND user_id = #{user_id}
+
+	</select>
+
+
+	<select id="checkNick" resultType="int">
+
+		SELECT COUNT(*) AS CNT
+		FROM
+		user
+		WHERE 1 = 1
+		AND user_nick = #{user_nick}
+
+	</select>
+
+
+	<delete id="delete">
+		delete from user where user_id = #{user_id}
+	</delete>
+
+	<update id="update">
+		update user set user_name = #{user_name},
+		user_email=#{user_email}, user_phone =#{user_phone}, user_pw
+		=#{user_pw}
+		where user_id = #{user_id}
+	</update>
+
+	<select id="find_id" resultType="UserVO">
+
+		SELECT user_id, user_regdate
+		FROM user
+		WHERE
+		user_nick = #{user_nick} and user_email = #{user_email}
+
+	</select>
+	
+	<select id="find_pw" resultType="UserVO">
+
+		SELECT user_id
+		FROM user
+		WHERE
+		user_id = #{user_id} and user_email = #{user_email}
+
+	</select>
+
+	
+	<update id="update_ran_pw">
+		update user set user_pw =#{user_pw}
+		where user_id = #{user_id}
+	</update>
+
+
+</mapper>
+
+
