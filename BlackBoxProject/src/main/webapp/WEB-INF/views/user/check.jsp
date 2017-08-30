@@ -1,27 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>BBP | Log in</title>
-<meta
-	content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
-	name='viewport'>
+<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 <!-- Bootstrap 3.3.4 -->
 
-<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	type="text/css" />
+<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- Font Awesome Icons -->
-<link
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <!-- Theme style -->
-<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet"
-	type="text/css" />
+<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
 <!-- iCheck -->
-<link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet"
-	type="text/css" />
+<link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
 
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -37,35 +31,30 @@
 
 	<div class="login-box">
 		<div class="login-logo">
+
 			<a href="/user/check"><b>BlackBox</b>Project</a>
 
 		</div>
 		<div class="login-logo">
-			<img
-				src="https://p-flearning.s3.amazonaws.com/uploads/user/avatar/2671/10354686_10150004552801856_220367501106153455_n.jpg"
-				class="user-image" data-reactid=".0.0.0.1.4.0"> 안녕하세요 :)
+			<img src="https://p-flearning.s3.amazonaws.com/uploads/user/avatar/2671/10354686_10150004552801856_220367501106153455_n.jpg" class="user-image" data-reactid=".0.0.0.1.4.0"> 안녕하세요 :)
 
 		</div>
 
 		<!-- /.login-logo -->
 		<div class="login-box-body">
-
-			<p class="login-box-msg">${userVO.user_college}${userVO.user_serial}<br />${userVO.user_name}(${userVO.user_nick})님
-				안녕하세요.
+			<p class="login-box-msg">${login.userCollege}${login.userSerial}<br />${login.userName}(${login.userNick})님 안녕하세요.
 			</p>
 
 			<form action="/user/course_auth/" method="get">
 
-				<button type="submit" class="btn btn-primary btn-block btn-flat"
-					id="confirm">학교 인증하기</button>
+				<button type="submit" class="btn btn-primary btn-block btn-flat" id="confirm">학교 인증하기</button>
 
 			</form>
 
 			<a href="/user/logout">로그아웃</a><br> <a href="/user/mypage">My Page</a><br>
 
 			<div class="btn-group" id="course">
-				<button type="button" class="btn btn-default dropdown-toggle"
-					data-toggle="dropdown" aria-expanded="false">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 					교과목 선택 <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
@@ -77,6 +66,13 @@
 				</ul>
 			</div>
 
+			<!-- 간단하게 해봤다 지워라 -->
+			<div class="list-group">
+				<c:forEach var="object" items="${course}">
+					<button type="button" class="list-group-item list-group-item-action">${object.key}</button>
+				</c:forEach>
+			</div>
+
 		</div>
 		<!-- /.login-box-body -->
 
@@ -85,9 +81,9 @@
 
 	<script type="text/javascript">
 			$(document).ready(function() {
-				if (${userVO.user_has_auth} == "1") {
-					$("#confirm").hide();
-					$("#course").show();
+				if (${login.userHasAuth} == "1") {
+					$("#confirm").hide(); //학교인증하기 숨기기
+					$("#course").show(); //교과목 선택하기 보여주기
 					//버튼이미지 변경
 				} else {
 					$("#confirm").show();
@@ -99,10 +95,8 @@
 	<!-- /.login-box -->
 
 
-	<script src="/resources/bootstrap/js/bootstrap.min.js"
-		type="text/javascript"></script>
+	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<!-- iCheck -->
-	<script src="/resources/plugins/iCheck/icheck.min.js"
-		type="text/javascript"></script>
+	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 </body>
 </html>

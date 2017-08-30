@@ -45,7 +45,7 @@
 
 		<!-- /.login-logo -->
 		<div class="login-box-body">
-			<p class="login-box-msg">${userVO.user_college}<br />${userVO.user_name}(${userVO.user_nick})님
+			<p class="login-box-msg">${login.userCollege}<br />${login.userName}(${login.userNick})님
 				안녕하세요.
 			</p>
 
@@ -53,13 +53,13 @@
 				학번 :
 				<div class="form-group has-feedback">
 
-					<input type="text" name="user_serial" class="form-control"
+					<input type="text" name="userSerial" class="form-control"
 						placeholder="학번" /> <span
 						class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				</div>
 				비밀번호 :
 				<div class="form-group has-feedback">
-					<input type="password" name="user_serial_pw" class="form-control"
+					<input type="password" name="userSerialPw" class="form-control"
 						placeholder="비밀번호" /> <span
 						class="glyphicon glyphicon-lock form-control-feedback"></span>
 				</div>

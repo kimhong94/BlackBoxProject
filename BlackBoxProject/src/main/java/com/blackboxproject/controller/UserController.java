@@ -2,6 +2,8 @@ package com.blackboxproject.controller;
 
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
@@ -26,6 +28,7 @@ import com.blackboxproject.domain.AuthVO;
 import com.blackboxproject.domain.UserVO;
 import com.blackboxproject.dto.LoginDTO;
 import com.blackboxproject.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/user")
@@ -40,7 +43,7 @@ public class UserController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public void loginGET(@ModelAttribute("dto") LoginDTO dto) {
-
+		logger.info("login get");
 	}
 
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
@@ -60,7 +63,7 @@ public class UserController {
 
 			Date sessionLimit = new Date(System.currentTimeMillis() + (1000 * amount));
 
-			service.keepLogin(vo.getUser_id(), session.getId(), sessionLimit);
+			service.keepLogin(vo.getUserId(), session.getId(), sessionLimit);
 		}
 
 	}
@@ -71,7 +74,7 @@ public class UserController {
 
 		logger.info("logout.................................1");
 
-		Object obj = session.getAttribute("login");
+		Object obj = session.getAttribute("login"); // login 세션 가져오기
 
 		if (obj != null) {
 			UserVO vo = (UserVO) obj;
@@ -86,7 +89,7 @@ public class UserController {
 				loginCookie.setPath("/");
 				loginCookie.setMaxAge(0);
 				response.addCookie(loginCookie);
-				service.keepLogin(vo.getUser_id(), session.getId(), new Date());
+				service.keepLogin(vo.getUserId(), session.getId(), new Date());
 			}
 		}
 		return "redirect:/user/login";
@@ -122,47 +125,65 @@ public class UserController {
 	// 로그인 후 첫 페이지
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	public void checkGET(Model model) throws Exception {
-		model.addAttribute("userVO", vo);
-		System.out.println(vo);
-		logger.info("regist get ...........");
+
+		logger.info("check get ...........");
 
 	}
 
 	// 학교 인증 페이지 보여주기
 	@RequestMapping(value = "/course_auth", method = RequestMethod.GET)
 	public void courseGET(Model model) throws Exception {
-
-		model.addAttribute("userVO", vo);
-		System.out.println(vo);
 		logger.info("course get ...........");
 	}
 
 	// 받아온 학번과 비밀번호를 토대로 인증하는 과정
-	// 1. 학번과 비밀번호를 -> 파이썬 파일로 보내주기 (String으로 보내줄 예정)
+	// 1. 학번과 비밀번호를 -> 파이썬 파일로 보내주기 (객체 보내줄 예정)
 	// 2. 파이썬파일에서 스크레이핑 과정을 통해서 교과목과 분반 가져오기
 	// 3. 파이썬에서 데이터 처리 후 -> jSon 파일로 다시 건내 받음
 	// 4. 받아온 목록을 토대로 회원 jnu_course 테이블의 교과목 번호를 조회
 	// 5. 받아온 교과목 번호를 jnu_user_course 테이블에 넣기
 	@RequestMapping(value = "/course_auth", method = RequestMethod.POST)
-	public String coursePOST(@ModelAttribute("user_serial") String user_serial,
-			@ModelAttribute("user_serial_pw") String user_serial_pw, Model model) throws Exception {
+	public String coursePOST(@ModelAttribute("userSerial") String userSerial,
+			@ModelAttribute("userSerialPw") String userSerialPw, Model model) throws Exception {
 		logger.info("course post ...........");
 
-		System.out.println(user_serial + " " + user_serial_pw);
+		System.out.println(userSerial + " " + userSerialPw);
 
 		AuthVO avo = new AuthVO();
-		avo.setUser_serial(user_serial);
-		avo.setUser_serial_pw(user_serial_pw);
+		avo.setUserSerial(userSerial);
+		avo.setUserSerialPw(userSerialPw);
 		System.out.println(avo);
 		RestTemplate restTemplate = new RestTemplate(); // 내부적으로 새로운 서버에 REST API 요청을 하기 위한 Rest Template 도구
 		restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
 		String url = "http://192.168.0.14:5002/student"; // 새로운 서버의 URL 변경
-		Object courseObj = restTemplate.postForObject(url, avo, AuthVO.class); // 새로운 서버의 JSON 결과를 POJO로 매핑
-		model.addAttribute("course", courseObj); // View 업데이트를 위한 Model에 POJO 객체 저장
+		String courseObj = restTemplate.postForObject(url, avo, String.class); // 새로운 서버의 JSON 결과를 POJO로 매핑
 
+		courseObj = courseObj.substring(1, courseObj.length() - 2);
+		System.out.println("1 =>  " + courseObj);
+		courseObj = courseObj.replace("\\\"", "\"");
+		System.out.println("2 =>  " + courseObj);
+		ObjectMapper mapper = new ObjectMapper();
+
+		Map<String, String> results = mapper.readValue(courseObj, Map.class);
+
+		//
+		Iterator<String> keyIter = results.keySet().iterator();
+
+		while (keyIter.hasNext()) {
+			String key = keyIter.next();
+			String value = results.get(key);
+			// 이제 여기서 DB에 추가 하면 되려나?
+			// DB에 데이터를 한번에 못 넣나?
+		}
+
+		model.addAttribute("course", results); // View 업데이트를 위한 Model에 POJO 객체 저장
 		System.out.println(courseObj);
-		return "redirect:/user/check";
+
+		// redirect 부분 뺐다, 원래대로 할려면 해라
+		// check 화면에서 인증여부를 알려주고
+
+		return "/user/check";
 	}
 
 	// Ajax를 이용한 아이디 중복 확인
@@ -175,7 +196,7 @@ public class UserController {
 			String paramId = (req.getParameter("prmId") == null) ? "" : String.valueOf(req.getParameter("prmId"));
 
 			UserVO vo = new UserVO();
-			vo.setUser_id(paramId.trim());
+			vo.setUserId(paramId.trim());
 			int chkPoint = service.checkId(vo);
 
 			out.print(chkPoint);
@@ -197,7 +218,7 @@ public class UserController {
 			String paramId = (req.getParameter("prmId") == null) ? "" : String.valueOf(req.getParameter("prmId"));
 
 			UserVO vo = new UserVO();
-			vo.setUser_nick(paramId.trim());
+			vo.setUserNick(paramId.trim());
 			int chkPoint = service.checkNick(vo);
 
 			out.print(chkPoint);
@@ -212,16 +233,12 @@ public class UserController {
 	// mypage 보여주기
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public void mypageGET(Model model) throws Exception {
-		model.addAttribute("userVO", vo);
-		System.out.println(vo);
 		logger.info("mypage get ...........");
 	}
 
 	// 계정 수정 페이지 보여주기
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public void modifyGET(Model model) throws Exception {
-		model.addAttribute("userVO", vo);
-		System.out.println(vo);
 		logger.info("user_modify get ...........");
 	}
 
@@ -238,17 +255,15 @@ public class UserController {
 	// 계정 삭제 페이지 보여주기
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public void deleteGET(Model model) throws Exception {
-		model.addAttribute("userVO", vo);
-		System.out.println(vo);
 		logger.info("user_delete get ...........");
 	}
 
 	// 계정 삭제 과정
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String deletePOST(RedirectAttributes rttr, @ModelAttribute("user_id") String user_id) throws Exception {
+	public String deletePOST(RedirectAttributes rttr, @ModelAttribute("userId") String userId) throws Exception {
 		logger.info("user_delete post ...........");
 
-		service.deleteUser(user_id);
+		service.deleteUser(userId);
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/user/login";
 	}
@@ -261,11 +276,11 @@ public class UserController {
 
 	// 아이디 찾기 과정 보여주기
 	@RequestMapping(value = "/find_id", method = RequestMethod.POST)
-	public String find_IdPOST(Model model, RedirectAttributes rttr, @ModelAttribute("user_nick") String user_nick,
-			@ModelAttribute("user_email") String user_email) throws Exception {
+	public String find_IdPOST(Model model, RedirectAttributes rttr, @ModelAttribute("userNick") String userNick,
+			@ModelAttribute("userEmail") String userEmail) throws Exception {
 		logger.info("user_find_id post ...........");
 
-		UserVO vo = service.find_id_user(user_nick, user_email);
+		UserVO vo = service.find_id_user(userNick, userEmail);
 		model.addAttribute("userVO", vo);
 		if (vo == null) {
 			rttr.addFlashAttribute("msg", "FAIL");
@@ -277,8 +292,8 @@ public class UserController {
 
 	// 아이디 찾기 결과 페이지 보여주기
 	@RequestMapping(value = "/find_id_result", method = RequestMethod.GET)
-	public void find_Id_resultGET(Model model, @ModelAttribute("user_id") String user_id) throws Exception {
-		model.addAttribute("user_id", user_id);
+	public void find_Id_resultGET(Model model, @ModelAttribute("userId") String userId) throws Exception {
+		model.addAttribute("userId", userId);
 		logger.info("user_find_id_result get ...........");
 	}
 

@@ -27,10 +27,10 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void keepLogin(String user_id, String sessionId, Date next) {
+	public void keepLogin(String userId, String sessionId, Date next) {
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("user_id", user_id);
+		paramMap.put("userId", userId);
 		paramMap.put("sessionId", sessionId);
 		paramMap.put("next", next);
 
@@ -61,8 +61,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void delete(String user_id) throws Exception {
-		session.delete(namespace + ".delete", user_id);
+	public void delete(String userId) throws Exception {
+		session.delete(namespace + ".delete", userId);
 	}
 
 	@Override
@@ -70,25 +70,25 @@ public class UserDAOImpl implements UserDAO {
 		session.update(namespace + ".update", vo);
 	}
 
-	public UserVO find_user_id(String user_nick, String user_email) throws Exception {
+	public UserVO find_user_id(String userNick, String userEmail) throws Exception {
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("user_nick", user_nick);
-		paramMap.put("user_email", user_email);
+		paramMap.put("userNick", userNick);
+		paramMap.put("userEmail", userEmail);
 		return session.selectOne(namespace + ".find_id", paramMap);
 	}
 
-	public UserVO find_user_pw(String user_id, String user_email) throws Exception {
+	public UserVO find_user_pw(String userId, String userEmail) throws Exception {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("user_id", user_id);
-		paramMap.put("user_email", user_email);
+		paramMap.put("userId", userId);
+		paramMap.put("userEmail", userEmail);
 		return session.selectOne(namespace + ".find_pw", paramMap);
 	}
-	
-	public void updateRanPw(String user_id, String user_pw) throws Exception{
+
+	public void updateRanPw(String userId, String userPw) throws Exception {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("user_id", user_id);
-		paramMap.put("user_pw", user_pw);
+		paramMap.put("userId", userId);
+		paramMap.put("userPw", userPw);
 		session.update(namespace + ".update_ran_pw", paramMap);
 	}
 }

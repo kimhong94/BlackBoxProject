@@ -1,23 +1,25 @@
 package com.blackboxproject.domain;
 
+//회원 권한 확인 
 public class AuthVO {
-	private String user_serial;
-	private String user_serial_pw;
 
-	public String getUser_serial() {
-		return user_serial;
+	private String userSerial;
+	private String userSerialPw;
+
+	public String getUserSerial() {
+		return userSerial;
 	}
 
-	public void setUser_serial(String user_serial) {
-		this.user_serial = user_serial;
+	public void setUserSerial(String userSerial) {
+		this.userSerial = userSerial;
 	}
 
-	public String getUser_serial_pw() {
-		return user_serial_pw;
+	public String getUserSerialPw() {
+		return userSerialPw;
 	}
 
-	public void setUser_serial_pw(String user_serial_pw) {
-		this.user_serial_pw = user_serial_pw;
+	public void setUserSerialPw(String userSerialPw) {
+		this.userSerialPw = userSerialPw;
 	}
 
 }

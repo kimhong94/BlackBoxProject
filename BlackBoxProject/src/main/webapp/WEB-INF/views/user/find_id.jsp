@@ -1,27 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>BBP | Join</title>
-<meta
-	content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
-	name='viewport'>
+<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 <!-- Bootstrap 3.3.4 -->
 
-<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	type="text/css" />
+<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- Font Awesome Icons -->
-<link
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <!-- Theme style -->
-<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet"
-	type="text/css" />
+<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
 <!-- iCheck -->
-<link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet"
-	type="text/css" />
+<link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +22,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<script language="JavaScript" src="/resources/js/userCheck.js?ver=1"></script>
+
 </head>
 
 <body class="login-page">
@@ -46,18 +38,16 @@
 
 				닉네임 :
 				<div class="form-group has-feedback">
-					<input type="text" maxlength="20" name="user_nick" id="user_nick"
-						class="form-control" placeholder="NickName" /> <span
-						class="glyphicon glyphicon-user form-control-feedback"></span>
+					<input type="text" maxlength="20" name="userNick" id="userNick" class="form-control" placeholder="NickName" />
+					<span class="glyphicon glyphicon-user form-control-feedback"></span>
 				</div>
 
 
 
 				이메일 :
 				<div class="form-group has-feedback">
-					<input type="email" maxlength="30" name="user_email"
-						id="user_email" class="form-control" placeholder="Email" /> <span
-						class="glyphicon glyphicon-calendar form-control-feedback"></span>
+					<input type="email" maxlength="30" name="userEmail" id="userEmail" class="form-control" placeholder="Email" />
+					<span class="glyphicon glyphicon-calendar form-control-feedback"></span>
 				</div>
 
 				<div>
@@ -71,15 +61,13 @@
 		<!-- /.login-box-body -->
 	</div>
 	<!-- /.login-box -->
-
+	<script language="JavaScript" src="/resources/js/userCheck.js?ver=1"></script>
 	<!-- jQuery 2.1.4 -->
 	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 	<!-- Bootstrap 3.3.2 JS -->
-	<script src="/resources/bootstrap/js/bootstrap.min.js"
-		type="text/javascript"></script>
+	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<!-- iCheck -->
-	<script src="/resources/plugins/iCheck/icheck.min.js"
-		type="text/javascript"></script>
+	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
 	<script>
 		$(function() {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackboxproject.mapper.QnAReplyMapper">
+
+	<!-- 댓글 리스트 보여주기 -->
+	<select id="listPage" resultType="QnAReplyVO">
+		select * from qna_comment
+		where
+		qna_post_id = #{qnaPostId}
+		order by qna_comment_group_id desc, qna_comment_step asc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+
+	<!-- 총 댓글 개수 가져오기 -->
+	<select id="count" resultType="int">
+		select count(qna_post_id) from qna_comment
+		where qna_post_id = #{qnaPostId}
+	</select>
+
+	<!-- 일반 댓글 생성하기 -->
+	<insert id="create">
+		insert into qna_comment (qna_post_id, qna_comment_content, user_nick,
+		qna_comment_group_id)
+		values (#{qnaPostId}, #{qnaCommentContent}, #{userNick},
+		#{qnaCommentGroupId})
+	</insert>
+
+		<!-- 그룹 id 가져오기 -->
+	<select id="getSeq" resultType="int">
+		select max(qna_comment_id)+1 from
+		qna_comment
+	</select>
+
+	<!-- 재 댓글 생성하기 -->
+	<insert id="createRe">
+	<![CDATA[
+		insert into qna_comment (qna_post_id, qna_comment_content, user_nick,
+		qna_comment_group_id, qna_comment_step, qna_comment_indent)
+		values (#{qnaPostId}, #{qnaCommentContent}, #{userNick},
+		#{qnaCommentGroupId},#{qnaCommentStep}+1, #{qnaCommentIndent}+1)
+	]]>
+	</insert>
+	
+	<!-- 댓글 모양 정렬하기 -->
+	<update id = "reShape">
+	
+		<![CDATA[
+		update qna_comment set qna_comment_step = qna_comment_step+1 where qna_comment_group_id = #{qnaCommentGroupId} and qna_comment_step > #{qnaCommentStep}
+		]]>
+	</update>
+
+	<!-- 댓글 수정하기 -->
+	<update id="update">
+		update qna_comment
+		set qna_comment_content = #{qnaCommentContent},
+		qna_comment_update_date
+		= now()
+		where qna_comment_id= #{qnaCommentId}
+	</update>
+
+	<!-- 댓글 삭제하기 -->
+	<delete id="delete">
+		delete from qna_comment where qna_comment_id =
+		#{qnaCommentId}
+	</delete>
+
+</mapper>
+
+

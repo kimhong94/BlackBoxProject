@@ -1,181 +1,202 @@
 package com.blackboxproject.domain;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 //세션에 보관되는 것을 관리하는 클래스
 //사용자 
+//사용자 
 public class UserVO {
+
 	// 회원 아이디
-	private String user_id;
+	private String userId;
 
 	// 회원 비밀번호
-	private String user_pw;
+	private String userPw;
 
-	// 회원 비밀번호 확인
-	private String user_pw_check;
+	private String userPwCheck;
 
 	// 회원 닉네임
-
-	private String user_nick;
+	private String userNick;
 
 	// 회원 이름
-	private String user_name;
+	private String userName;
 
 	// 회원 학번
-	private Integer user_serial;
+	private String userSerial;
 
 	// 회원 이메일
-	private String user_email;
+	private String userEmail;
 
 	// 회원 권한
-	private String user_auth;
+	private String userAuth;
 
 	// 회원 전화번호
-	private String user_phone;
+	private String userPhone;
 
 	// 회원 성별
-	private String user_sex;
+	private String userSex;
 
 	// 회원 인증 여부
-	private Integer user_has_auth;
+	private Integer userHasAuth;
 
 	// 회원 대학교
-	private String user_college;
+	private String userCollege;
 
-	// 회원 가입 날짜
-	private Date user_regdate;
+	// 회원 세션
+	private String userSessionkey;
 
-	// 회원 세션 키값
-	private String user_sessionKey;
+	// 회원 세션 유효시간
+	private Timestamp userSessionlimit;
 
-	// 회원 유효 세션 기간
-	private Date user_sessionLimit;
+	// 회원 생성 날짜
+	private Timestamp userRegdate;
 
-	public Date getUser_regdate() {
-		return user_regdate;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_regdate(Date user_regdate) {
-		this.user_regdate = user_regdate;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getUser_sessionKey() {
-		return user_sessionKey;
+	public String getUserPw() {
+		return userPw;
 	}
 
-	public void setUser_sessionKey(String user_sessionKey) {
-		this.user_sessionKey = user_sessionKey;
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
 	}
 
-	public Date getUser_sessionLimit() {
-		return user_sessionLimit;
+	public String getUserPwCheck() {
+		return userPwCheck;
 	}
 
-	public void setUser_sessionLimit(Date user_sessionLimit) {
-		this.user_sessionLimit = user_sessionLimit;
+	public void setUserPwCheck(String userPwCheck) {
+		this.userPwCheck = userPwCheck;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserNick() {
+		return userNick;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserNick(String userNick) {
+		this.userNick = userNick;
 	}
 
-	public String getUser_pw() {
-		return user_pw;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser_pw(String user_pw) {
-		this.user_pw = user_pw;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getUser_pw_check() {
-		return user_pw_check;
+	public String getUserSerial() {
+		return userSerial;
 	}
 
-	public void setUser_pw_check(String user_pw_check) {
-		this.user_pw_check = user_pw_check;
+	public void setUserSerial(String userSerial) {
+		this.userSerial = userSerial;
 	}
 
-	public String getUser_nick() {
-		return user_nick;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setUser_nick(String user_nick) {
-		this.user_nick = user_nick;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getUserAuth() {
+		return userAuth;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserAuth(String userAuth) {
+		this.userAuth = userAuth;
 	}
 
-	public Integer getUser_serial() {
-		return user_serial;
+	public String getUserPhone() {
+		return userPhone;
 	}
 
-	public void setUser_serial(Integer user_serial) {
-		this.user_serial = user_serial;
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
 	}
 
-	public String getUser_email() {
-		return user_email;
+	public String getUserSex() {
+		return userSex;
 	}
 
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setUserSex(String userSex) {
+		this.userSex = userSex;
 	}
 
-	public String getUser_auth() {
-		return user_auth;
+	public Integer getUserHasAuth() {
+		return userHasAuth;
 	}
 
-	public void setUser_auth(String user_auth) {
-		this.user_auth = user_auth;
+	public void setUserHasAuth(Integer userHasAuth) {
+		this.userHasAuth = userHasAuth;
 	}
 
-	public String getUser_phone() {
-		return user_phone;
+	public String getUserCollege() {
+		return userCollege;
 	}
 
-	public void setUser_phone(String user_phone) {
-		this.user_phone = user_phone;
+	public void setUserCollege(String userCollege) {
+		this.userCollege = userCollege;
 	}
 
-	public String getUser_sex() {
-		return user_sex;
+	public String getUserSessionkey() {
+		return userSessionkey;
 	}
 
-	public void setUser_sex(String user_sex) {
-		this.user_sex = user_sex;
+	public void setUserSessionkey(String userSessionkey) {
+		this.userSessionkey = userSessionkey;
 	}
 
-	public Integer getUser_has_auth() {
-		return user_has_auth;
+	public Timestamp getUserSessionlimit() {
+		return userSessionlimit;
 	}
 
-	public void setUser_has_auth(Integer user_has_auth) {
-		this.user_has_auth = user_has_auth;
+	public void setUserSessionlimit(Timestamp userSessionlimit) {
+		this.userSessionlimit = userSessionlimit;
 	}
 
-	public String getUser_college() {
-		return user_college;
+	public Timestamp getUserRegdate() {
+		return userRegdate;
 	}
 
-	public void setUser_college(String user_college) {
-		this.user_college = user_college;
+	public void setUserRegdate(Timestamp userRegdate) {
+		this.userRegdate = userRegdate;
+	}
+
+	// User 모델 복사
+	public void CopyData(UserVO param) {
+		this.userId = param.getUserId();
+		this.userPw = param.getUserPw();
+		this.userPwCheck = param.getUserPwCheck();
+		this.userNick = param.getUserNick();
+		this.userName = param.getUserName();
+		this.userSerial = param.getUserSerial();
+		this.userEmail = param.getUserEmail();
+		this.userAuth = param.getUserAuth();
+		this.userPhone = param.getUserPhone();
+		this.userSex = param.getUserSex();
+		this.userHasAuth = param.getUserHasAuth();
+		this.userCollege = param.getUserCollege();
+		this.userSessionkey = param.getUserSessionkey();
+		this.userSessionlimit = param.getUserSessionlimit();
+		this.userRegdate = param.getUserRegdate();
 	}
 
 	@Override
 	public String toString() {
-		return "UserVO [user_id=" + user_id + ", user_pw=" + user_pw + ", user_nick=" + user_nick + ", user_name="
-				+ user_name + ", user_serial=" + user_serial + ", user_email=" + user_email + ", user_auth=" + user_auth
-				+ ", user_phone=" + user_phone + ", user_sex=" + user_sex + ", user_has_auth=" + user_has_auth
-				+ ", user_college=" + user_college + "]";
+		return "UserVO [userId=" + userId + ", userPw=" + userPw + ", userPwCheck=" + userPwCheck + ", userNick="
+				+ userNick + ", userName=" + userName + ", userSerial=" + userSerial + ", userEmail=" + userEmail
+				+ ", userAuth=" + userAuth + ", userPhone=" + userPhone + ", userSex=" + userSex + ", userHasAuth="
+				+ userHasAuth + ", userCollege=" + userCollege + ", userSessionkey=" + userSessionkey
+				+ ", userSessionlimit=" + userSessionlimit + ", userRegdate=" + userRegdate + "]";
 	}
+
 }

@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void keepLogin(String user_id, String sessionId, Date next) throws Exception {
+	public void keepLogin(String userId, String sessionId, Date next) throws Exception {
 
-		dao.keepLogin(user_id, sessionId, next);
+		dao.keepLogin(userId, sessionId, next);
 
 	}
 
@@ -50,23 +50,24 @@ public class UserServiceImpl implements UserService {
 		return dao.checkNick(vo);
 	}
 
-	public void deleteUser(String user_id) throws Exception {
-		dao.delete(user_id);
+	public void deleteUser(String userId) throws Exception {
+		dao.delete(userId);
 	}
 
 	public void updateUser(UserVO vo) throws Exception {
 		dao.modify(vo);
 	}
 
-	public UserVO find_id_user(String user_nick, String user_email) throws Exception {
-		return dao.find_user_id(user_nick, user_email);
+	public UserVO find_id_user(String userNick, String userEmail) throws Exception {
+		return dao.find_user_id(userNick, userEmail);
 	}
 
-	public UserVO find_pw_user(String user_id, String user_email) throws Exception {
-		return dao.find_user_pw(user_id, user_email);
+	public UserVO find_pw_user(String userId, String userEmail) throws Exception {
+		return dao.find_user_pw(userId, userEmail);
 	}
-	public void updateRanPw(String user_id, String user_pw) throws Exception{
-		dao.updateRanPw(user_id, user_pw);
+
+	public void updateRanPw(String userId, String userPw) throws Exception {
+		dao.updateRanPw(userId, userPw);
 	}
 
 }

@@ -4,10 +4,10 @@
 
 // 아이디 중복확인
 function chkDupId() {
-	var prmId = $('#user_id').val();
+	var prmId = $('#userId').val();
 
 	// 아이디가 입력이 안되있을 경우
-	if ($("#user_id").val() == '') {
+	if ($("#userId").val() == '') {
 		alert('아이디를 입력해주세요.');
 		return;
 	}
@@ -17,12 +17,12 @@ function chkDupId() {
 	for (var i = 0; i < idLength; i++) {
 		if (prmId.charAt(i) != " " && regexp.test(prmId.charAt(i)) == false) {
 			alert("한글이나 특수문자는 입력 불가능 합니다.");
-			$("#user_id").val("");
+			$("#userId").val("");
 			return;
 		}
 		if (idLength < 4 || idLength > 20) {
 			alert('아이디는 4~20자 까지 회원 가입 가능합니다.');
-			$("#user_id").val("");
+			$("#userId").val("");
 			return;
 		}
 	}
@@ -50,9 +50,9 @@ function chkDupId() {
 
 function chkDupNick() {
 
-	var prmId = $('#user_nick').val();
+	var prmId = $('#userNick').val();
 
-	if ($("#user_nick").val() == '') {
+	if ($("#userNick").val() == '') {
 		alert('닉네임을 입력해주세요.');
 		return;
 	}
@@ -62,12 +62,12 @@ function chkDupNick() {
 	for (var i = 0; i < idLength; i++) {
 		if (prmId.charAt(i) != " " && regexp.test(prmId.charAt(i)) == false) {
 			alert("한글이나 특수문자는 입력 불가능 합니다.");
-			$("#user_nick").val("");
+			$("#userNick").val("");
 			return;
 		}
 		if (idLength < 4 || idLength > 20) {
 			alert('닉네임은 4~20자 까지 회원 가입 가능합니다.');
-			$("#user_nick").val("");
+			$("#userNick").val("");
 			return;
 		}
 	}
@@ -107,44 +107,44 @@ function insertChk() {
 	}
 
 	// 비밀번호 유효성 검사
-	var prmPw = $('#user_pw').val();
+	var prmPw = $('#userPw').val();
 
 	var regexpPw = /[0-9a-zA-Z]/;
 	var pwLength = prmPw.length;
 	for (var i = 0; i < pwLength; i++) {
 		if (prmPw.charAt(i) != " " && regexpPw.test(prmPw.charAt(i)) == false) {
 			alert("비밀번호는 한글이나 특수문자는 입력 불가능 합니다.");
-			$("#user_pw").val("");
+			$("#userPw").val("");
 			return;
 		}
 		if (pwLength < 4 || pwLength > 20) {
 			alert('비밀번호는 4~20자 까지 회원 가입 가능합니다.');
-			$("#user_pw").val("");
+			$("#userPw").val("");
 			return;
 		}
 	}
 
 	// 이름 유효성 검사
-	var prmName = $('#user_name').val();
-
+	var prmName = $('#userName').val();
+	console.log(prmName);
 	var regexpName = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 	var nameLength = prmName.length;
 	for (var i = 0; i < nameLength; i++) {
 		if (prmName.charAt(i) != " "
 				&& regexpName.test(prmName.charAt(i)) == false) {
 			alert("이름은 한글만 입력가능합니다.");
-			$("#user_name").val("");
+			$("#userName").val("");
 			return;
 		}
 		if (nameLength < 1 || nameLength > 20) {
 			alert('이름은 1~20자 까지 회원 가입 가능합니다.');
-			$("#user_name").val("");
+			$("#userName").val("");
 			return;
 		}
 	}
 
 	// 전화번호 유효성 검사
-	var prmPhone = $('#user_phone').val();
+	var prmPhone = $('#userPhone').val();
 
 	var regexpPhone = /[0-9]/;
 	var phoneLength = prmPhone.length;
@@ -152,18 +152,18 @@ function insertChk() {
 		if (prmPhone.charAt(i) != " "
 				&& regexpPhone.test(prmPhone.charAt(i)) == false) {
 			alert("전화번호는 숫자만 입력가능합니다.");
-			$("#user_phone").val("");
+			$("#userPhone").val("");
 			return;
 		}
 		if (phoneLength < 8 || phoneLength > 12) {
 			alert('전화번호는  8~12자 까지 회원 가입 가능합니다.');
-			$("#user_phone").val("");
+			$("#userPhone").val("");
 			return;
 		}
 	}
 
 	// 이메일 유효성 검사
-	var prmEmail = $('#user_email').val();
+	var prmEmail = $('#userEmail').val();
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
 
 	// 이메일 형식에 맞지않으면
@@ -174,14 +174,14 @@ function insertChk() {
 	}
 
 	// 비밀번호 일치 여부
-	if ($("#user_pw").val() != $("#user_pw_check").val()) {
+	if ($("#userPw").val() != $("#userPwCheck").val()) {
 		alert('비밀번호가 일치하지 않습니다.');
 		return;
 	}
 
 	// 빈칸 없는지 확인 여부
-	if ($("#user_name").val() == '' || $("#user_email").val() == ''
-			|| $("#user_phone").val() == '') {
+	if ($("#userName").val() == '' || $("#userEmail").val() == ''
+			|| $("#userPhone").val() == '') {
 		alert('빈칸이 있습니다.');
 		return;
 	}
@@ -199,37 +199,37 @@ function insertChk() {
 function modifyChk() {
 
 	// 비밀번호 일치 여부
-	if ($("#user_old_pw").val() != $("#user_old_pw_check").val()) {
+	if ($("#userOldPw").val() != $("#userOldPwCheck").val()) {
 		alert('현재 비밀번호가 일치하지 않습니다.');
 		return;
 	}
 
 	// 비밀번호 일치 여부
-	if ($("#user_pw").val() != $("#user_pw_check").val()) {
+	if ($("#userPw").val() != $("#userPwCheck").val()) {
 		alert('새로운 비밀번호가 일치하지 않습니다.');
 		return;
 	}
 
 	// 비밀번호 유효성 검사
-	var prmPw = $('#user_pw').val();
+	var prmPw = $('#userPw').val();
 
 	var regexpPw = /[0-9a-zA-Z]/;
 	var pwLength = prmPw.length;
 	for (var i = 0; i < pwLength; i++) {
 		if (prmPw.charAt(i) != " " && regexpPw.test(prmPw.charAt(i)) == false) {
 			alert("비밀번호는 한글이나 특수문자는 입력 불가능 합니다.");
-			$("#user_pw").val("");
+			$("#userPw").val("");
 			return;
 		}
 		if (pwLength < 4 || pwLength > 20) {
 			alert('비밀번호는 4~20자 까지 회원 가입 가능합니다.');
-			$("#user_pw").val("");
+			$("#userPw").val("");
 			return;
 		}
 	}
 
 	// 이름 유효성 검사
-	var prmName = $('#user_name').val();
+	var prmName = $('#userName').val();
 
 	var regexpName = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
 	var nameLength = prmName.length;
@@ -237,18 +237,18 @@ function modifyChk() {
 		if (prmName.charAt(i) != " "
 				&& regexpName.test(prmName.charAt(i)) == false) {
 			alert("이름은 한글만 입력가능합니다.");
-			$("#user_name").val("");
+			$("#userName").val("");
 			return;
 		}
 		if (nameLength < 1 || nameLength > 20) {
 			alert('이름은 1~20자 까지 회원 가입 가능합니다.');
-			$("#user_name").val("");
+			$("#userName").val("");
 			return;
 		}
 	}
 
 	// 전화번호 유효성 검사
-	var prmPhone = $('#user_phone').val();
+	var prmPhone = $('#userPhone').val();
 
 	var regexpPhone = /[0-9]/;
 	var phoneLength = prmPhone.length;
@@ -256,18 +256,18 @@ function modifyChk() {
 		if (prmPhone.charAt(i) != " "
 				&& regexpPhone.test(prmPhone.charAt(i)) == false) {
 			alert("전화번호는 숫자만 입력가능합니다.");
-			$("#user_phone").val("");
+			$("#userPhone").val("");
 			return;
 		}
 		if (phoneLength < 8 || phoneLength > 12) {
 			alert('전화번호는  8~12자 까지 회원 가입 가능합니다.');
-			$("#user_phone").val("");
+			$("#userPhone").val("");
 			return;
 		}
 	}
 
 	// 이메일 유효성 검사
-	var prmEmail = $('#user_email').val();
+	var prmEmail = $('#userEmail').val();
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
 	// 이메일 형식에 맞지않으면
 
@@ -277,9 +277,9 @@ function modifyChk() {
 	}
 
 	// 빈칸 없는지 확인 여부
-	if ($("#user_name").val() == '' || $("#user_email").val() == ''
-			|| $("#user_phone").val() == '' || $("#user_pw").val() == ''
-			|| $("#user_pw_check").val() == '') {
+	if ($("#userName").val() == '' || $("#userEmail").val() == ''
+			|| $("#userPhone").val() == '' || $("#userPw").val() == ''
+			|| $("#userPwCheck").val() == '') {
 		alert('빈칸이 있습니다.');
 		return;
 	}
@@ -290,7 +290,7 @@ function modifyChk() {
 // 회원 삭제 버튼
 function deleteChk() {
 
-	var chk = document.delUser.user_delete.checked;
+	var chk = document.delUser.userDelete.checked;
 	if (!chk) {
 		alert("동의를 하신 경우에만 계정이 삭제됩니다.");
 		return;

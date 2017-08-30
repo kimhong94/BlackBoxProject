@@ -30,7 +30,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<script language="JavaScript" src="/resources/js/userCheck.js?ver=1"></script>
+
 </head>
 
 <body class="login-page">
@@ -46,14 +46,14 @@
 
 				아이디 :
 				<div class="form-group has-feedback">
-					<input type="text" maxlength="20" name="user_id"
+					<input type="text" maxlength="20" name="userId"
 						class="form-control" placeholder="아이디" /> <span
 						class="glyphicon glyphicon-user form-control-feedback"></span>
 				</div>
 
 				이메일 :
 				<div class="form-group has-feedback">
-					<input type="email" maxlength="30" name="user_email"
+					<input type="email" maxlength="30" name="userEmail"
 						class="form-control" placeholder="이메일" /> <span
 						class="glyphicon glyphicon-calendar form-control-feedback"></span>
 				</div>
@@ -68,7 +68,7 @@
 		<!-- /.login-box-body -->
 	</div>
 	<!-- /.login-box -->
-
+<script language="JavaScript" src="/resources/js/userCheck.js?ver=1"></script>
 	<!-- jQuery 2.1.4 -->
 	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 	<!-- Bootstrap 3.3.2 JS -->

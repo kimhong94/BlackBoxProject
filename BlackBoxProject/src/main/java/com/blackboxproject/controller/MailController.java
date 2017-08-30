@@ -36,19 +36,19 @@ public class MailController {
 
 	// 비밀번호 찾기
 	@RequestMapping(value = "/find_pw", method = RequestMethod.POST)
-	public String find_PwPOST(RedirectAttributes rttr, @ModelAttribute("user_id") String user_id,
-			@ModelAttribute("user_email") String user_email) throws Exception {
-		UserVO user = userService.find_pw_user(user_id, user_email);
+	public String find_PwPOST(RedirectAttributes rttr, @ModelAttribute("userId") String userId,
+			@ModelAttribute("userEmail") String userEmail) throws Exception {
+		UserVO user = userService.find_pw_user(userId, userEmail);
 		if (user != null) {
 			int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
-			String user_pw = String.valueOf(ran);
-			userService.updateRanPw(user_id, user_pw); // 해당 유저의 DB정보 변경
+			String userPw = String.valueOf(ran);
+			userService.updateRanPw(userId, userPw); // 해당 유저의 DB정보 변경
 			String subject = "[BBP]임시 비밀번호 발급 안내 입니다.";
 			StringBuilder sb = new StringBuilder();
 			sb.append("안녕하세요 :) BBP에서 임시 비밀번호 발급 안내 메일을 보내드립니다.");
-			sb.append("귀하의 임시 비밀번호는 " + user_pw + " 입니다.");
+			sb.append("귀하의 임시 비밀번호는 " + userPw + " 입니다.");
 			sb.append("로그인 후 안전한 비밀번호로 변경해 주세요^^");
-			mailService.send(subject, sb.toString(), "dudwnsdn30@gmail.com", user_email, null);
+			mailService.send(subject, sb.toString(), "dudwnsdn30@gmail.com", userEmail, null);
 			rttr.addFlashAttribute("resultMsg", "귀하의 이메일 주소로 새로운 임시 비밀번호를 발송 하였습니다.");
 		} else {
 			rttr.addFlashAttribute("resultMsg", "귀하의 이메일로 가입된 아이디가 존재하지 않습니다.");
