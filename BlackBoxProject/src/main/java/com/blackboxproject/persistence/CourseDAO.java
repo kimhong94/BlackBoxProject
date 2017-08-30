@@ -8,5 +8,5 @@ import com.blackboxproject.domain.CourseVO;
 public interface CourseDAO {
 	
 	public void registCourse(CourseVO vo) throws Exception;
-	
+	public CourseVO getCourseInfo(int courseId) throws Exception;
 }

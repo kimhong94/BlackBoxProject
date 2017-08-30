@@ -24,4 +24,10 @@ public class CourseServiceImpl implements CourseService {
 			coursedao.registCourse(vo);
 		}
 	}
+	
+	@Override
+	public CourseVO getCourseInfo(int courseId) throws Exception {
+		CourseVO vo = coursedao.getCourseInfo(courseId);
+		return vo;
+	}
 }
