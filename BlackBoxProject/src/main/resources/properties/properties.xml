@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>common_code</comment>
+
+<!-- Common Code Definition -->
+<entry key="db.id">hongseok</entry>
+<entry key="db.pw">584621kim</entry>
+<entry key="db.url">jdbc:log4jdbc:mysql://127.0.0.1:3306/blackboxproject?useSSL=false</entry>
+
+</properties>

@@ -17,8 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{coursePhone}, #{courseCampus}, 
 		#{courseGrade}, #{courseProf},
 		#{courseClassroom},#{courseCredit})
-			
 	</insert>
+	
+	<select id="getCourseInfo" resultType="com.blackboxproject.domain.CourseVO">
+		SELECT * FROM jnu_course WHERE course_id = #{courseId}
+	</select>
 
 </mapper>
 

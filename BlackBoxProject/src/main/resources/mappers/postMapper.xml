@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackboxproject.mapper.PostMapper">
+
+	<select id="getPosts" resultType="PostVO">
+	<![CDATA[
+		SELECT * FROM jnu_post WHERE course_id = #{courseId} AND board_id = #{boardId}
+	]]>
+	</select>
+
+	<insert id="createPost">
+		INSERT INTO jnu_post(course_Id, board_Id, post_Title, post_Content, user_Nick)
+		VALUES(#{courseId}, #{boardId}, #{postTitle}, #{postContent}, #{userNick})
+
+		<!-- Insert후 seq번호를 가져오기 <selectKey keyProperty="idx" resultType="Integer" 
+			order="AFTER"> SELECT seq_board_bno.currval FROM dual </selectKey> -->
+	</insert>
+
+</mapper>
+
+

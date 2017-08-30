@@ -24,5 +24,9 @@ public class CourseDAOImpl implements CourseDAO {
 			session.insert(namespace+".registAllCourse" , vo);
 	}
 
-
+	@Override
+	public CourseVO getCourseInfo(int courseId) throws Exception{
+		CourseVO vo = session.selectOne(namespace+".getCourseInfo", courseId);
+		return vo;
+	}
 }
