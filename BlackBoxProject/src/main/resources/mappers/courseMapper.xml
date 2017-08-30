@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackboxproject.mapper.CourseMapper">
+	
+	<insert id="registAllCourse" >
+		INSERT INTO jnu_course (course_code, course_class, course_year, course_semester, course_name, course_time, 
+			course_div, course_department, course_phone, course_campus, course_grade, course_prof, 
+			course_classroom, course_credit)
+		VALUES 
+		(#{courseCode}, #{courseClass}, 
+		#{courseYear}, #{courseSemester},
+		#{courseName}, #{courseTime},
+		#{courseDiv}, #{courseDepartment},
+		#{coursePhone}, #{courseCampus}, 
+		#{courseGrade}, #{courseProf},
+		#{courseClassroom},#{courseCredit})
+			
+	</insert>
+
+</mapper>
+
+
