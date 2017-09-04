@@ -1,6 +1,8 @@
 package com.blackboxproject.domain;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 //전남대학교 
 public class PostVO {
@@ -28,8 +30,21 @@ public class PostVO {
 
  // 게시글 등록날짜 
  private Timestamp postRegdate;
+ 
+ // 파일
+ private List<FileVO> files;
 
- public Integer getPostId() {
+ 
+ 
+public List<FileVO> getFiles() {
+	return files;
+}
+
+public void setFiles(List<FileVO> files) {
+	this.files = files;
+}
+
+public Integer getPostId() {
      return postId;
  }
 
@@ -110,9 +125,9 @@ public class PostVO {
 public String toString() {
 	return "PostVO [postId=" + postId + ", courseId=" + courseId + ", boardId=" + boardId + ", postTitle=" + postTitle
 			+ ", postContent=" + postContent + ", postView=" + postView + ", userNick=" + userNick + ", postRegdate="
-			+ postRegdate + "]";
+			+ postRegdate + ", files=" + files + "]";
 }
- 
+
  
  
 }
