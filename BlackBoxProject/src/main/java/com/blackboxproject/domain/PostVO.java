@@ -105,4 +105,14 @@ public class PostVO {
      this.userNick = param.getUserNick();
      this.postRegdate = param.getPostRegdate();
  }
+
+@Override
+public String toString() {
+	return "PostVO [postId=" + postId + ", courseId=" + courseId + ", boardId=" + boardId + ", postTitle=" + postTitle
+			+ ", postContent=" + postContent + ", postView=" + postView + ", userNick=" + userNick + ", postRegdate="
+			+ postRegdate + "]";
+}
+ 
+ 
+ 
 }

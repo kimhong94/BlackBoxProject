@@ -13,6 +13,7 @@ public class UserVO {
 	// 회원 비밀번호
 	private String userPw;
 
+	// 회원 비밀번호 확인
 	private String userPwCheck;
 
 	// 회원 닉네임

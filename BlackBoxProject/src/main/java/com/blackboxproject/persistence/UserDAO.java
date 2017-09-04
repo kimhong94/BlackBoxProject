@@ -28,4 +28,6 @@ public interface UserDAO {
 	public UserVO find_user_pw(String userId, String userEmail) throws Exception;
 
 	public void updateRanPw(String userId, String userPw) throws Exception;
+
+	public void updateUserAuth(String userId) throws Exception;
 }

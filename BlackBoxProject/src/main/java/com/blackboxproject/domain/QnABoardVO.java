@@ -23,6 +23,17 @@ public class QnABoardVO {
 	// 게시글 등록날짜
 	private Timestamp qnaPostRegdate;
 
+	// 게시글 댓글 수
+	private Integer qnaPostReplycnt;
+
+	public Integer getQnaPostReplycnt() {
+		return qnaPostReplycnt;
+	}
+
+	public void setQnaPostReplycnt(Integer qnaPostReplycnt) {
+		this.qnaPostReplycnt = qnaPostReplycnt;
+	}
+
 	public Integer getQnaPostId() {
 		return qnaPostId;
 	}
@@ -83,9 +94,9 @@ public class QnABoardVO {
 
 	@Override
 	public String toString() {
-		return "QnaBoardVO [qnaPostId=" + qnaPostId + ", qnaPostTitle=" + qnaPostTitle + ", qnaPostContent="
+		return "QnABoardVO [qnaPostId=" + qnaPostId + ", qnaPostTitle=" + qnaPostTitle + ", qnaPostContent="
 				+ qnaPostContent + ", qnaPostView=" + qnaPostView + ", userNick=" + userNick + ", qnaPostRegdate="
-				+ qnaPostRegdate + "]";
+				+ qnaPostRegdate + ", qnaPostReplycnt=" + qnaPostReplycnt + "]";
 	}
 
 }

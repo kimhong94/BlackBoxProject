@@ -16,15 +16,15 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	
-	<util:properties id="bbp" location="classpath:/properties/properties.xml" />
-	
+
+	<util:properties id="bbp"
+		location="classpath:/properties/properties.xml" />
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="url"
-			value="#{bbp['db.url']}"></property>
+		<property name="url" value="#{bbp['db.url']}"></property>
 		<property name="username" value="#{bbp['db.id']}"></property>
 		<property name="password" value="#{bbp['db.pw']}"></property>
 	</bean>
@@ -70,8 +70,8 @@
 
 	<context:component-scan base-package="com.blackboxproject.persistence"></context:component-scan>
 	<context:component-scan base-package="com.blackboxproject.service"></context:component-scan>
-	
-	
+
+
 	<aop:config>
 	</aop:config>
 

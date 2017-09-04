@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="login" resultType="UserVO">
 
 		select *
-		from user 
+		from user
 		where
 		user_id = #{userId} and user_pw = #{userPw}
 
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		user_nick = #{userNick} and user_email = #{userEmail}
 
 	</select>
-	
+
 	<select id="find_pw" resultType="UserVO">
 
 		SELECT user_id
@@ -84,10 +84,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	
+
 	<update id="update_ran_pw">
 		update user set user_pw =#{userPw}
-		where user_id = #{userId}
+		where user_id =
+		#{userId}
+	</update>
+
+
+
+	<update id="updateUserAuth">
+		update user set user_has_auth = 1
+		where user_id =
+		#{userId}
 	</update>
 
 

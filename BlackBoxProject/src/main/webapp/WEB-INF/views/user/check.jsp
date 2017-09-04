@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,33 +47,30 @@
 			<p class="login-box-msg">${login.userCollege}${login.userSerial}<br />${login.userName}(${login.userNick})님 안녕하세요.
 			</p>
 
-			<form action="/user/course_auth/" method="get">
+			<c:if test="${login.userHasAuth == 0}">
 
-				<button type="submit" class="btn btn-primary btn-block btn-flat" id="confirm">학교 인증하기</button>
+				<form action="/user/course_auth/" method="get">
+					<button type="submit" class="btn btn-primary btn-block btn-flat" id="confirm">학교 인증하기</button>
+				</form>
+			</c:if>
 
-			</form>
+
+			<c:if test="${login.userHasAuth == 1}">
+				<div class="btn-group" id="course">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						교과목 선택 <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<c:forEach var="course" items="${course}">
+							<li><a href="/courses/${course.courseId}">${course.courseName}(${course.courseClass})</a></li>
+						</c:forEach>
+					</ul>
+				</div>
+			</c:if>
 
 			<a href="/user/logout">로그아웃</a><br> <a href="/user/mypage">My Page</a><br>
 
-			<div class="btn-group" id="course">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-					교과목 선택 <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Action</a></li>
-					<li><a href="#">Another action</a></li>
-					<li><a href="#">Something else here</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Separated link</a></li>
-				</ul>
-			</div>
 
-			<!-- 간단하게 해봤다 지워라 -->
-			<div class="list-group">
-				<c:forEach var="object" items="${course}">
-					<button type="button" class="list-group-item list-group-item-action">${object.key}</button>
-				</c:forEach>
-			</div>
 
 		</div>
 		<!-- /.login-box-body -->
@@ -79,21 +78,18 @@
 
 	</div>
 
-	<script type="text/javascript">
-			$(document).ready(function() {
-				if (${login.userHasAuth} == "1") {
-					$("#confirm").hide(); //학교인증하기 숨기기
-					$("#course").show(); //교과목 선택하기 보여주기
-					//버튼이미지 변경
-				} else {
-					$("#confirm").show();
-					$("#course").hide();
-				}
-			})
-	</script>
-
 	<!-- /.login-box -->
+	<script>
+		var result = '${msg}';
 
+		if (result == 'SUCCESS') {
+			alert("처리가 완료되었습니다.");
+			location.replace(self.location);
+		} else if (result == 'FAIL') {
+			alert("교과목 가져오기를 실패했습니다.\n학번과 비밀번호를 확인해주세요.");
+			location.replace(self.location);
+		}
+	</script>
 
 	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<!-- iCheck -->

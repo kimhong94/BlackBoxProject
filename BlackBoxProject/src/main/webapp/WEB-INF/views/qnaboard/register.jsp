@@ -14,15 +14,15 @@
 				</div>
 				<!-- /.box-header -->
 
-				<form role="form" method="post">
+				<form role="form" method="post" name="register">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="exampleInputEmail1"> </label>
-							<input type="text" name='qnaPostTitle' class="form-control" placeholder="Enter Title">
+							<label for="exampleInputEmail1">Title </label>
+							<input type="text" name='qnaPostTitle' id='qnaPostTitle' class="form-control" placeholder="Enter Title">
 						</div>
 						<div class="form-group">
 							<label for="exampleInputPassword1">Content</label>
-							<textarea class="form-control" name="qnaPostContent" rows="3" placeholder="Enter ..."></textarea>
+							<textarea class="form-control" name="qnaPostContent" id='qnaPostContent' rows="3" placeholder="Enter ..."></textarea>
 						</div>
 
 						<div class="form-group">
@@ -33,7 +33,11 @@
 					<!-- /.box-body -->
 
 					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<div class="col-xs-4">
+							<input type="button" value="등록" class="btn btn-primary" onclick="javascript:registerChk();">
+							<input type="button" value="취소" class="btn btn-danger" onClick="history.go(-1); return false;">
+
+						</div>
 					</div>
 				</form>
 
@@ -49,5 +53,17 @@
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+	function registerChk() {
+	
+	var title = $("#qnaPostTitle").val();
+	var content = $("#qnaPostContent").val();
+	if (title.length == 0 || content.length == 0) {
+		alert("빈칸이 있습니다.");
+		return;
+	}
+	document.register.submit();
+}
+</script>
 
 <%@include file="../include/footer.jsp"%>

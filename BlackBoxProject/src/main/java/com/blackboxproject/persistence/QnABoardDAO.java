@@ -18,4 +18,7 @@ public interface QnABoardDAO {
 
 	public int listSearchCount(SearchCriteria cri) throws Exception;
 
+	public void updateReplyCnt(Integer qnaPostId, int amount) throws Exception;
+
+	public void updateViewCnt(Integer qnaPostId) throws Exception;
 }

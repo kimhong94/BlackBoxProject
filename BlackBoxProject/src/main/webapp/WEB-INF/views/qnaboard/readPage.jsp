@@ -1,40 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@include file="../include/header.jsp"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+
+<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- Main content -->
-
-
-<!-- 
-<style>
-
-#indent1 {
-	width: 80%;
-	float : right;
-}
-#indent2 {
-	width: 75%;
-	float : right;
-}
-#indent3 {
-	width: 70%;
-	float : right;
-}
-#indent4 {
-	width: 65%;
-	float : right;
-}
-#indent5 {
-	width: 60%;
-	float : right;
-}
-#indent6 {
-	width: 55%;
-	float : right;
-}
-</style>
- -->
-
 
 <section class="content">
 	<div class="row">
@@ -72,9 +43,13 @@
 				<!-- /.box-body -->
 
 				<div class="box-footer">
-					<button type="submit" class="btn btn-warning" id="modifyBtn">Modify</button>
-					<button type="submit" class="btn btn-danger" id="removeBtn">REMOVE</button>
+					<c:if test="${login.userNick == qnABoardVO.userNick}">
+						<button type="submit" class="btn btn-warning" id="modifyBtn">Modify</button>
+						<button type="submit" class="btn btn-danger" id="removeBtn">REMOVE</button>
+					</c:if>
+
 					<button type="submit" class="btn btn-primary" id="goListBtn">GO LIST</button>
+
 				</div>
 
 
@@ -112,7 +87,8 @@
 			<!-- The time line -->
 			<ul class="timeline">
 				<!-- timeline time label -->
-				<li class="time-label" id="repliesDiv"><span class="bg-green"> Replies List </span></li>
+				<li class="time-label" id="repliesDiv"><span class="bg-green"> Replies List <small id='replycntSmall'> [ ${qnABoardVO.qnaPostReplycnt} ] </small>
+				</span></li>
 			</ul>
 
 
@@ -187,6 +163,7 @@
 <!-- /.content -->
 
 <script id="template" type="text/x-handlebars-template">
+
 {{#each .}}
 
 
@@ -211,9 +188,12 @@
 
   <input type="hidden" id = "qnaCommentIndent" value="{{qnaCommentIndent}}">
 
+
     <div class="timeline-footer">
-     <a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modifyModal">수정 하기</a>
-	 <a class="btn btn-default btn-xs" data-toggle="modal" data-target="#rereplyModal">답글 달기</a>
+		{{#eqReplyer userNick}}		
+    	<a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modifyModal">수정 하기</a>
+		{{/eqReplyer}}
+		<a class="btn btn-default btn-xs" data-toggle="modal" data-target="#rereplyModal">답글 달기</a>
     </div>
   </div>			
 </li>
@@ -222,6 +202,14 @@
 </script>
 
 <script>
+	Handlebars.registerHelper("eqReplyer", function(userNick, block) {
+		var accum = '';
+		if (userNick == '${login.userNick}') {
+			accum += block.fn();
+		}
+		return accum;
+	});
+
 	Handlebars.registerHelper("prettifyDate", function(timeValue) {
 		var dateObj = new Date(timeValue);
 		var year = dateObj.getFullYear();
@@ -250,11 +238,13 @@
 		$.getJSON(pageInfo, function(data) {
 			printData(data.list, $("#repliesDiv"), $('#template'));
 			printPaging(data.pageMaker, $(".pagination"));
-			
+
 			getIndent();
 			$("#modifyModal").modal('hide');
+			$("#replycntSmall").html("[ " + data.pageMaker.totalCount + " ]");
+			$("#reqnaCommentContent").val(" ");
 			$("#rereplyModal").modal('hide');
-			
+
 		});
 	}
 
@@ -305,6 +295,11 @@
 		var replytextObj = $("#newReplyText");
 		var userNick = replyerObj.val();
 		var qnaCommentContent = replytextObj.val();
+
+		if (qnaCommentContent.length == 0) {
+			alert("빈칸이 있습니다.");
+			return;
+		}
 
 		$.ajax({
 			type : 'post',
@@ -369,61 +364,63 @@
 		});
 	});
 
-	$("#rereplyBtn").on(
-			"click",
-			function() {
-				var qnaCommentContent = $("#reqnaCommentContent").val();
-				var qnaCommentGroupId = $("#reqnaCommentGroupId").val();
-				var qnaCommentStep = $("#reqnaCommentStep").val();
-				var qnaCommentIndent = $("#reqnaCommentIndent").val();
-				var userNick = $("#reuserNick").val();
+	/*재 댓글 달기  */
+	$("#rereplyBtn").on("click", function() {
+		var qnaCommentContent = $("#reqnaCommentContent").val();
+		var qnaCommentGroupId = $("#reqnaCommentGroupId").val();
+		var qnaCommentStep = $("#reqnaCommentStep").val();
+		var qnaCommentIndent = $("#reqnaCommentIndent").val();
+		var userNick = $("#reuserNick").val();
 
-				$.ajax({
-					type : 'post',
-					url : '/replies/re',
-					headers : {
-						"Content-Type" : "application/json",
-						"X-HTTP-Method-Override" : "POST"
-					},
-					data : JSON.stringify({
-						qnaPostId : qnaPostId,
-						qnaCommentContent : qnaCommentContent,
-						qnaCommentGroupId : qnaCommentGroupId,
-						qnaCommentStep : qnaCommentStep,
-						qnaCommentIndent : qnaCommentIndent,
-						userNick : userNick
-					}),
-					dataType : 'text',
-					success : function(result) {
-						console.log("result: " + result);
-						if (result == 'SUCCESS') {
-							alert("등록 되었습니다.");
-							replyPage = 1;
-							getPage("/replies/" + qnaPostId + "/" + replyPage);
-						}
-					}
-				});
-			});
-	
-	function getIndent(){
+		if (qnaCommentContent.length == 0) {
+			alert("빈칸이 있습니다.");
+			return;
+		}
+		$.ajax({
+			type : 'post',
+			url : '/replies/re',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			data : JSON.stringify({
+				qnaPostId : qnaPostId,
+				qnaCommentContent : qnaCommentContent,
+				qnaCommentGroupId : qnaCommentGroupId,
+				qnaCommentStep : qnaCommentStep,
+				qnaCommentIndent : qnaCommentIndent,
+				userNick : userNick
+			}),
+			dataType : 'text',
+			success : function(result) {
+				console.log("result: " + result);
+				if (result == 'SUCCESS') {
+					alert("등록 되었습니다.");
+					getPage("/replies/" + qnaPostId + "/" + replyPage);
+				}
+			}
+		});
+	});
+
+	function getIndent() {
 		var indent = $("div.timeline-item.indent");
-		
-		$.each(indent, function(index, item){
-			
+
+		$.each(indent, function(index, item) {
+
 			var num = $(this).attr("data-indent");
-			var get = (95-(num*5));
-			
-			if(num != 0){
-				
+			var get = (95 - (num * 5));
+
+			if (num != 0) {
+
 				$(this).css({
-					"width" : get+"%",
+					"width" : get + "%",
 					"float" : "right"
-					});
-				
+				});
+
 			}
 		});
 	}
-	
+
 	$("#replyDelBtn").on("click", function() {
 
 		var qnaCommentId = $(".modal-title").html();
@@ -477,8 +474,4 @@
 </script>
 
 
-
-
-
-<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <%@include file="../include/footer.jsp"%>

@@ -25,6 +25,7 @@ public class QnABoardServiceImpl implements QnABoardService {
 	@Override
 	public QnABoardVO read(Integer qnaPostId) throws Exception {
 		// TODO Auto-generated method stub
+		dao.updateViewCnt(qnaPostId);
 		return dao.read(qnaPostId);
 	}
 

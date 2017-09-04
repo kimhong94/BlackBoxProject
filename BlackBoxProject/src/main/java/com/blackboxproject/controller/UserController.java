@@ -3,6 +3,7 @@ package com.blackboxproject.controller;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -24,9 +25,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
-import com.blackboxproject.domain.AuthVO;
+import com.blackboxproject.domain.CourseVO;
 import com.blackboxproject.domain.UserVO;
+import com.blackboxproject.dto.CertifyDTO;
 import com.blackboxproject.dto.LoginDTO;
+import com.blackboxproject.service.CourseService;
 import com.blackboxproject.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,6 +41,9 @@ public class UserController {
 
 	@Inject
 	private UserService service;
+
+	@Inject
+	private CourseService courseService;
 
 	private UserVO vo;
 
@@ -125,7 +131,13 @@ public class UserController {
 	// 로그인 후 첫 페이지
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	public void checkGET(Model model) throws Exception {
-
+		// 회원이 수강중인 교과목번호를 넣는 작업 필요하다
+		// 1. userId에 해당하는 courseId, courseName, courseClass를 
+		// jnu_course 테이블과 jnu_user_course를 inner 조인해서 가져온다
+		List<CourseVO> coursevo = courseService.getUserCourseId(vo.getUserId());
+		
+		// 그 후에 jnu_course테이블에서 그 교과목 번호에 해당하는 교과목 이름과 분반을 가져와서 model에 붙여준다.
+		model.addAttribute("course", coursevo);
 		logger.info("check get ...........");
 
 	}
@@ -144,46 +156,54 @@ public class UserController {
 	// 5. 받아온 교과목 번호를 jnu_user_course 테이블에 넣기
 	@RequestMapping(value = "/course_auth", method = RequestMethod.POST)
 	public String coursePOST(@ModelAttribute("userSerial") String userSerial,
-			@ModelAttribute("userSerialPw") String userSerialPw, Model model) throws Exception {
+			@ModelAttribute("userSerialPw") String userSerialPw, Model model, RedirectAttributes rttr)
+			throws Exception {
 		logger.info("course post ...........");
 
-		System.out.println(userSerial + " " + userSerialPw);
+		CertifyDTO cerDTO = new CertifyDTO();
+		cerDTO.setUserSerial(userSerial);
+		cerDTO.setUserSerialPw(userSerialPw);
 
-		AuthVO avo = new AuthVO();
-		avo.setUserSerial(userSerial);
-		avo.setUserSerialPw(userSerialPw);
-		System.out.println(avo);
-		RestTemplate restTemplate = new RestTemplate(); // 내부적으로 새로운 서버에 REST API 요청을 하기 위한 Rest Template 도구
-		restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+		try {
+			RestTemplate restTemplate = new RestTemplate(); // 내부적으로 새로운 서버에 REST API 요청을 하기 위한 Rest Template 도구
+			restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
-		String url = "http://192.168.0.14:5002/student"; // 새로운 서버의 URL 변경
-		String courseObj = restTemplate.postForObject(url, avo, String.class); // 새로운 서버의 JSON 결과를 POJO로 매핑
+			String url = "http://192.168.0.14:5002/student"; // 새로운 서버의 URL 변경
+			String courseObj = restTemplate.postForObject(url, cerDTO, String.class); // 새로운 서버의 JSON 결과를 POJO로 매핑
 
-		courseObj = courseObj.substring(1, courseObj.length() - 2);
-		System.out.println("1 =>  " + courseObj);
-		courseObj = courseObj.replace("\\\"", "\"");
-		System.out.println("2 =>  " + courseObj);
-		ObjectMapper mapper = new ObjectMapper();
+			courseObj = courseObj.substring(1, courseObj.length() - 2);
+			System.out.println("1 =>  " + courseObj);
+			courseObj = courseObj.replace("\\\"", "\"");
+			System.out.println("2 =>  " + courseObj);
+			ObjectMapper mapper = new ObjectMapper();
 
-		Map<String, String> results = mapper.readValue(courseObj, Map.class);
+			Map<String, String> results = mapper.readValue(courseObj, Map.class);
 
-		//
-		Iterator<String> keyIter = results.keySet().iterator();
+			//
+			Iterator<String> keyIter = results.keySet().iterator();
 
-		while (keyIter.hasNext()) {
-			String key = keyIter.next();
-			String value = results.get(key);
-			// 이제 여기서 DB에 추가 하면 되려나?
-			// DB에 데이터를 한번에 못 넣나?
+			while (keyIter.hasNext()) {
+				String key = keyIter.next(); // 교과목 이름
+				String value = results.get(key); // 분반
+				/*
+				 * 1. jnu_course 테이블에서 해당 교과목이름과 분반에 해당하는 번호를 가져온다. 2. 그 교과목 번호와 사용자의 id를
+				 * jnu_user_course 테이블에 넣는다
+				 */
+				key = key.substring(0,key.lastIndexOf("("));
+				System.out.println(key+" "+value);
+				int courseId = courseService.getCourseId(key, value);
+				courseService.userToCourse(vo.getUserId(), courseId);
+				// 오께이, 완료// 테스해볼것 월요일에 key값과 value값을 교과목 코드와 분반으로 바꿔주기만하고 테스트 해보면끝.
+			}
+
+			// 1. 사용자의 인증 여부를 1로 갱신해준다.
+			service.updateHasAuth(vo.getUserId());
+			rttr.addFlashAttribute("msg", "SUCCESS");
+		} catch (Exception e) {
+			rttr.addFlashAttribute("msg", "FAIL");
 		}
 
-		model.addAttribute("course", results); // View 업데이트를 위한 Model에 POJO 객체 저장
-		System.out.println(courseObj);
-
-		// redirect 부분 뺐다, 원래대로 할려면 해라
-		// check 화면에서 인증여부를 알려주고
-
-		return "/user/check";
+		return "redirect:/user/check";
 	}
 
 	// Ajax를 이용한 아이디 중복 확인

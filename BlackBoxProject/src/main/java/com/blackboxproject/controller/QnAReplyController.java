@@ -32,15 +32,13 @@ public class QnAReplyController {
 
 		ResponseEntity<String> entity = null;
 		try {
-			/*
-			 * 1. 지금부터 스탭은 jsp에서 계산하지 않는다
-			 * 2. controller에서 max(step)을 구한다.
-			 * 3. 
-			 * */
-			int getSeq = service.getSeq();
-			System.out.println(getSeq);
-			vo.setQnaCommentGroupId(getSeq);
+			/*int getSeq = service.getSeq();
+			vo.setQnaCommentGroupId(getSeq);*/
 			service.addReply(vo);
+			int getSeq = service.getSeq();
+			vo.setQnaCommentId(getSeq);
+			vo.setQnaCommentGroupId(getSeq);
+			service.setGroupId(vo);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -56,11 +54,8 @@ public class QnAReplyController {
 
 		ResponseEntity<String> entity = null;
 		try {
-
-			System.out.println(vo);
 			service.replyShape(vo);
 			service.addReReply(vo);
-
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -121,7 +116,6 @@ public class QnAReplyController {
 			pageMaker.setTotalCount(replyCount);
 
 			map.put("pageMaker", pageMaker);
-
 			entity = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 
 		} catch (Exception e) {

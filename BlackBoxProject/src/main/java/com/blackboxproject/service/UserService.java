@@ -28,4 +28,7 @@ public interface UserService {
 	public UserVO find_pw_user(String userId, String userEmail) throws Exception;
 
 	public void updateRanPw(String userId, String userPw) throws Exception;
+
+	public void updateHasAuth(String userId) throws Exception;
+
 }
