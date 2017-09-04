@@ -63,9 +63,18 @@ public class QnAReplyDAOImpl implements QnAReplyDAO {
 	public int getSeq() throws Exception {
 		return session.selectOne(namespace + ".getSeq");
 	}
-	public void reshape(QnAReplyVO vo) throws Exception{
-		System.out.println("2"+vo);
-		session.update(namespace+".reShape", vo);
+
+	public void reshape(QnAReplyVO vo) throws Exception {
+		session.update(namespace + ".reShape", vo);
 	}
 
+	public int getQnaPostId(Integer qnaCommentId) throws Exception {
+		return session.selectOne(namespace + ".getQnaPostId", qnaCommentId);
+	}
+
+	@Override
+	public void setGId(QnAReplyVO vo) throws Exception {
+		System.out.println(vo);
+		session.update(namespace+".setCommentGroupId", vo);
+	}
 }

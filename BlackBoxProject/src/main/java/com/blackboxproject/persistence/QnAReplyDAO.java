@@ -16,10 +16,14 @@ public interface QnAReplyDAO {
 	public List<QnAReplyVO> listPage(Integer qnaPostId, Criteria cri) throws Exception;
 
 	public int count(Integer qnaPostId) throws Exception;
-	
+
 	public int getSeq() throws Exception;
-	
+
 	public void recreate(QnAReplyVO vo) throws Exception;
-	
+
 	public void reshape(QnAReplyVO vo) throws Exception;
+
+	public int getQnaPostId(Integer qnaCommentId) throws Exception;
+	
+	public void setGId(QnAReplyVO vo) throws Exception;
 }

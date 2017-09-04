@@ -91,4 +91,10 @@ public class UserDAOImpl implements UserDAO {
 		paramMap.put("userPw", userPw);
 		session.update(namespace + ".update_ran_pw", paramMap);
 	}
+
+	@Override
+	public void updateUserAuth(String userId) throws Exception {
+		session.update(namespace + ".updateUserAuth", userId);
+
+	}
 }

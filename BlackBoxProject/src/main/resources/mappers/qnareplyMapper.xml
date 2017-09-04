@@ -10,28 +10,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from qna_comment
 		where
 		qna_post_id = #{qnaPostId}
-		order by qna_comment_group_id desc, qna_comment_step asc
+		order by qna_comment_group_id asc,
+		qna_comment_step asc
 		limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
 
 	<!-- 총 댓글 개수 가져오기 -->
 	<select id="count" resultType="int">
-		select count(qna_post_id) from qna_comment
+		select count(qna_post_id) from
+		qna_comment
 		where qna_post_id = #{qnaPostId}
 	</select>
 
 	<!-- 일반 댓글 생성하기 -->
 	<insert id="create">
-		insert into qna_comment (qna_post_id, qna_comment_content, user_nick,
+		insert into qna_comment (qna_post_id,
+		qna_comment_content, user_nick,
 		qna_comment_group_id)
-		values (#{qnaPostId}, #{qnaCommentContent}, #{userNick},
+		values
+		(#{qnaPostId}, #{qnaCommentContent}, #{userNick},
 		#{qnaCommentGroupId})
 	</insert>
 
-		<!-- 그룹 id 가져오기 -->
+	<!-- 그룹 id 가져오기 -->
 	<select id="getSeq" resultType="int">
-		select max(qna_comment_id)+1 from
+		select max(qna_comment_id) from
 		qna_comment
 	</select>
 
@@ -44,9 +48,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{qnaCommentGroupId},#{qnaCommentStep}+1, #{qnaCommentIndent}+1)
 	]]>
 	</insert>
-	
+
 	<!-- 댓글 모양 정렬하기 -->
-	<update id = "reShape">
+	<update id="reShape">
 	
 		<![CDATA[
 		update qna_comment set qna_comment_step = qna_comment_step+1 where qna_comment_group_id = #{qnaCommentGroupId} and qna_comment_step > #{qnaCommentStep}
@@ -56,10 +60,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 댓글 수정하기 -->
 	<update id="update">
 		update qna_comment
-		set qna_comment_content = #{qnaCommentContent},
+		set qna_comment_content =
+		#{qnaCommentContent},
 		qna_comment_update_date
 		= now()
-		where qna_comment_id= #{qnaCommentId}
+		where
+		qna_comment_id= #{qnaCommentId}
 	</update>
 
 	<!-- 댓글 삭제하기 -->
@@ -67,6 +73,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from qna_comment where qna_comment_id =
 		#{qnaCommentId}
 	</delete>
+
+	<select id="getQnaPostId" resultType="int">
+		select qna_post_id from
+		qna_comment where qna_comment_id = #{qnaCommentId}
+	</select>
+
+
+	<update id="setCommentGroupId">
+		update qna_comment set qna_comment_group_id =
+		#{qnaCommentGroupId} where
+		qna_comment_id = #{qnaCommentId}
+	</update>
+
 
 </mapper>
 

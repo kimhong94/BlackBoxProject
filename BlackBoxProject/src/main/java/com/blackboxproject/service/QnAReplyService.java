@@ -21,4 +21,6 @@ public interface QnAReplyService {
 	public void addReReply(QnAReplyVO vo) throws Exception;
 	
 	public void replyShape(QnAReplyVO vo) throws Exception;
+	
+	public void setGroupId(QnAReplyVO vo) throws Exception;
 }

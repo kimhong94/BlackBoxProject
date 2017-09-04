@@ -8,15 +8,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="create">
 		insert into qna_board (qna_post_title,
 		qna_post_content, user_nick)
-		values(#{qnaPostTitle},#{qnaPostContent}, #{userNick})
+		values(#{qnaPostTitle},#{qnaPostContent},
+		#{userNick})
 	</insert>
 
 	<select id="read" resultType="QnABoardVO">
 		select
-		qna_post_id, qna_post_title,
-		qna_post_content, user_nick,
-		qna_post_regdate,
-		qna_post_view
+		*
 		from
 		qna_board
 		where qna_post_id = #{qnaPostId}
@@ -25,7 +23,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update">
 		update qna_board set qna_post_title
-		=#{qnaPostTitle}, qna_post_content
+		=#{qnaPostTitle},
+		qna_post_content
 		=#{qnaPostContent}
 		where
 		qna_post_id = #{qnaPostId}
@@ -37,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 
-		<sql id="search">
+	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 't'.toString()">
 				and qna_post_title like CONCAT('%', #{keyword}, '%')
@@ -49,12 +48,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and qna_post_writer like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'tc'.toString()">
-				and ( qna_post_title like CONCAT('%', #{keyword}, '%') OR qna_post_content
+				and ( qna_post_title like CONCAT('%', #{keyword}, '%') OR
+				qna_post_content
 				like
 				CONCAT('%', #{keyword}, '%'))
 			</if>
 			<if test="searchType == 'cw'.toString()">
-				and ( qna_post_content like CONCAT('%', #{keyword}, '%') OR user_nick
+				and ( qna_post_content like CONCAT('%', #{keyword}, '%')
+				OR user_nick
 				like
 				CONCAT('%', #{keyword}, '%'))
 			</if>
@@ -64,12 +65,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				qna_post_content
 				like CONCAT('%', #{keyword}, '%')
 				OR
-				user_nick like CONCAT('%',
+				user_nick like
+				CONCAT('%',
 				#{keyword}, '%'))
 			</if>
 		</if>
 	</sql>
-	
+
 	<select id="listSearch" resultType="QnABoardVO">
 <![CDATA[  
   select * 
@@ -80,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="search"></include>
   
 <![CDATA[    
-  order by qna_post_id desc
+  order by qna_post_id desc, qna_post_regdate desc
   limit #{pageStart}, #{perPageNum}
 ]]>
 	</select>
@@ -94,6 +96,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="search"></include>
 
 	</select>
+
+	<update id="updateReplyCnt">
+		update qna_board set qna_post_replycnt =
+		qna_post_replycnt + #{amount} where qna_post_id = #{qnaPostId}
+	</update>
+	
+	<update id="updateViewCnt">
+		update qna_board set qna_post_view = qna_post_view+1 where qna_post_id = #{qnaPostId}
+	</update>
 
 
 </mapper>

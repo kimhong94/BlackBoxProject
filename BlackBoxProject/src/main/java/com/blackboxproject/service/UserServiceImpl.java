@@ -70,4 +70,10 @@ public class UserServiceImpl implements UserService {
 		dao.updateRanPw(userId, userPw);
 	}
 
+	@Override
+	public void updateHasAuth(String userId) throws Exception {
+		dao.updateUserAuth(userId);
+
+	}
+
 }
