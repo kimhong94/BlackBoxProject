@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page session="false"%>
 
-<%@include file="../include/header.jsp"%>
+<%@include file="../include/navbar.jsp"%>
 
 <!-- Main content -->
 <section class="content">
