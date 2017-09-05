@@ -25,7 +25,7 @@
     <![endif]-->
 <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/carousel.css?ver=1">
 </head>
-
+ 
 <body>
 
 	<div class="bbp">
