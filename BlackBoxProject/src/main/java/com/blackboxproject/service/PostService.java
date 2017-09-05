@@ -2,6 +2,7 @@ package com.blackboxproject.service;
 
 import java.util.List;
 
+import com.blackboxproject.domain.FileVO;
 import com.blackboxproject.domain.PostVO;
 
 public interface PostService {
@@ -10,4 +11,10 @@ public interface PostService {
 
 	public void createPost(PostVO vo) throws Exception;
 
+	public PostVO getPostByPostId(int postId) throws Exception;
+
+	public List<FileVO> getFilesByPostId(int postId) throws Exception;
+	
+	
+	
 }

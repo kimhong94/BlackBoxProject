@@ -12,10 +12,28 @@
 	<insert id="createPost">
 		INSERT INTO jnu_post(course_Id, board_Id, post_Title, post_Content, user_Nick)
 		VALUES(#{courseId}, #{boardId}, #{postTitle}, #{postContent}, #{userNick})
-
+		<selectKey resultType="int" keyProperty="postId" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>        
 		<!-- Insert후 seq번호를 가져오기 <selectKey keyProperty="idx" resultType="Integer" 
 			order="AFTER"> SELECT seq_board_bno.currval FROM dual </selectKey> -->
 	</insert>
+
+	<insert id="addFile">
+		INSERT INTO jnu_file(file_name, post_id, file_originname, user_nick)
+		VALUES(#{fileName}, #{postId}, #{fileOriginname}, #{userNick})
+
+		<!--  LAST_INSERT_ID()
+			 -->
+	</insert>	
+	
+	<select id="getPostByPostId" resultType="PostVO">
+		SELECT * FROM jnu_post WHERE post_id = #{postId}
+	</select>
+	
+	<select id="getFilesByPostId" resultType="FileVO">
+		SELECT * FROM jnu_file WHERE post_id = #{postId}
+	</select>
 
 </mapper>
 

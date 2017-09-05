@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.blackboxproject.domain.FileVO;
 import com.blackboxproject.domain.PostVO;
 
 @Repository
@@ -35,6 +36,22 @@ public class PostDAOImpl implements PostDAO {
 		
 		session.insert(namespace+".createPost", vo);
 		
+	}
+
+	@Override
+	public void addFile(FileVO fvo) throws Exception {
+		session.insert(namespace+".addFile", fvo);
+	}
+
+	@Override
+	public PostVO getPostByPostId(int postId) throws Exception {
+		
+		return session.selectOne(namespace + ".getPostByPostId", postId);
+	}
+
+	@Override
+	public List<FileVO> getFilesByPostId(int postId) throws Exception {
+		return session.selectList(namespace +".getFilesByPostId", postId);
 	}
 
 }
