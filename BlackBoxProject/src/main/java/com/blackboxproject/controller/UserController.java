@@ -192,6 +192,7 @@ public class UserController {
 				key = key.substring(0,key.lastIndexOf("("));
 				System.out.println(key+" "+value);
 				int courseId = courseService.getCourseId(key, value);
+				//학번도 넣어라 시발
 				courseService.userToCourse(vo.getUserId(), courseId);
 				// 오께이, 완료// 테스해볼것 월요일에 key값과 value값을 교과목 코드와 분반으로 바꿔주기만하고 테스트 해보면끝.
 			}

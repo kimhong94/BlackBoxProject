@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <hr/>
-<div class="container" id="footer">
+<div class="container footer">
 	<!-- FOOTER -->
 	<footer>
 		<p class="pull-right">
@@ -19,8 +19,4 @@
 	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
 </body>
-	
-
-
-
 </html>
