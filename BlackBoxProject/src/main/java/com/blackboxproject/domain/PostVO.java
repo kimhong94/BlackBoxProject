@@ -1,7 +1,6 @@
 package com.blackboxproject.domain;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 //전남대학교 
@@ -21,7 +20,7 @@ public class PostVO {
 
  // 게시글 내용 
  private String postContent;
-
+ 
  // 조회수 
  private Integer postView;
 
