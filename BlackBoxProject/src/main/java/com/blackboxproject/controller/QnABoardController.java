@@ -1,6 +1,7 @@
 package com.blackboxproject.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.blackboxproject.domain.PageMaker;
@@ -19,6 +21,7 @@ import com.blackboxproject.service.QnABoardService;
 
 @Controller
 @RequestMapping("/qnaboard/*")
+@SessionAttributes("LOGIN")
 public class QnABoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(QnABoardController.class);
@@ -27,10 +30,11 @@ public class QnABoardController {
 	private QnABoardService service;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model, HttpServletRequest request) throws Exception {
 
 		logger.info(cri.toString());
-
+		 
+		
 		model.addAttribute("list", service.listSearchCriteria(cri));
 
 		PageMaker pageMaker = new PageMaker();

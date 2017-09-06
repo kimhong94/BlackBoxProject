@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<hr/>
-<div class="container footer">
+
+<div class="footer">
 	<!-- FOOTER -->
+	<hr />
 	<footer>
 		<p class="pull-right">
 			<a href="#">Back to top</a>
@@ -11,12 +12,10 @@
 		</p>
 	</footer>
 </div>
+<script src="/resources/js/userCheck.js"></script>
 <!-- jQuery 2.1.4 -->
-	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-	<!-- Bootstrap 3.3.2 JS -->
-	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<!-- iCheck -->
-	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-
+<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

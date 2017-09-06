@@ -31,10 +31,10 @@ public class CourseDAOImpl implements CourseDAO {
 	}
 
 	@Override
-	public int getCourseId(String courseName, String courseClass) {
+	public int getCourseId(String courseCode, String courseClass) {
 		Map<String, String> paramMap = new HashMap<String, String>();
 
-		paramMap.put("courseName", courseName);
+		paramMap.put("courseCode", courseCode);
 		paramMap.put("courseClass", courseClass);
 
 		return session.selectOne(namespace + ".getCourseId", paramMap);
