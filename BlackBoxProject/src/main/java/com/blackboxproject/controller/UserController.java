@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
+ 
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Inject
