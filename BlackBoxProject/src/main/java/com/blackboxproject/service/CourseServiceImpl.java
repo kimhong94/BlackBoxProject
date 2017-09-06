@@ -29,8 +29,8 @@ public class CourseServiceImpl implements CourseService {
 		return vo;
 	}
 
-	public int getCourseId(String courseName, String courseClass) throws Exception {
-		return coursedao.getCourseId(courseName, courseClass);
+	public int getCourseId(String courseCode, String courseClass) throws Exception {
+		return coursedao.getCourseId(courseCode, courseClass);
 	}
 
 	@Override

@@ -1,87 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page session="false"%>
 
+<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <%@include file="../include/navbar.jsp"%>
+<div class="container mypageString1">
+	<h1>My Page</h1>
+</div>
+<div class="container mypageString2">
+	<h2>질문과 답변</h2>
+</div>
 
-<!-- Main content -->
-<section class="content">
-	<div class="row">
-		<!-- left column -->
+
+<%@include file="../include/mypageProfile.jsp"%>
+
+<div class="container qna">
 
 
-		<div class="col-md-12">
-			<!-- general form elements -->
-			<div class='box'>
-				<div class="box-header with-border">
-					<h3 class="box-title">Board List</h3>
-				</div>
+	<!-- Main content -->
+	<section class="content">
+		<div class="row">
+			<!-- left column -->
 
-				<div class='box-body'>
-					<select name="searchType">
-						<option value="n" <c:out value="${cri.searchType == null?'selected':''}"/>>
+
+			<div class="col-md-12" style="padding-top: 4%;">
+				<div>
+					<div>
+						<h3>무엇이든 물어보세요.</h3>
+					</div>
+					<div style="float: left; padding-top: 2%; padding-bottom: 1%;" class="form-inline">
+						<select name="searchType" class="form-control">
+							<option value="n" <c:out value="${cri.searchType == null?'selected':''}"/>>
 							---</option>
-						<option value="t" <c:out value="${cri.searchType eq 't'?'selected':''}"/>>
+							<option value="t" <c:out value="${cri.searchType eq 't'?'selected':''}"/>>
 							Title</option>
-						<option value="c" <c:out value="${cri.searchType eq 'c'?'selected':''}"/>>
+							<option value="c" <c:out value="${cri.searchType eq 'c'?'selected':''}"/>>
 							Content</option>
-						<option value="w" <c:out value="${cri.searchType eq 'w'?'selected':''}"/>>
+							<option value="w" <c:out value="${cri.searchType eq 'w'?'selected':''}"/>>
 							Writer</option>
-						<option value="tc" <c:out value="${cri.searchType eq 'tc'?'selected':''}"/>>
+							<option value="tc" <c:out value="${cri.searchType eq 'tc'?'selected':''}"/>>
 							Title OR Content</option>
-						<option value="cw" <c:out value="${cri.searchType eq 'cw'?'selected':''}"/>>
+							<option value="cw" <c:out value="${cri.searchType eq 'cw'?'selected':''}"/>>
 							Content OR Writer</option>
-						<option value="tcw" <c:out value="${cri.searchType eq 'tcw'?'selected':''}"/>>
+							<option value="tcw" <c:out value="${cri.searchType eq 'tcw'?'selected':''}"/>>
 							Title OR Content OR Writer</option>
-					</select>
-					<input type="text" name='keyword' id="keywordInput" value='${cri.keyword }'>
-					<button id='searchBtn'>Search</button>
-					<button id='newBtn'>New Board</button>
-				</div>
-			</div>
-
-			<div class="box">
-				<div class="box-header with-border">
-					<h3 class="box-title">LIST PAGING</h3>
-				</div>
-				<div class="box-body">
-					<table class="table table-bordered">
-						<tr>
-							<th style="width: 10px">BNO</th>
-							<th>TITLE</th>
-							<th>WRITER</th>
-							<th>REGDATE</th>
-							<th style="width: 40px">VIEWCNT</th>
-						</tr>
-
-						<c:forEach items="${list}" var="qnABoardVO">
-
+						</select>
+						<input class="form-control" type="text" name='keyword' id="keywordInput" value='${cri.keyword }'>
+						<button class="btn btn-info" id='searchBtn'>Search</button>
+						<button class="btn btn-default" id='newBtn'>New Board</button>
+					</div>
+					<div>
+						<table class="table table-condensed">
 							<tr>
-								<td>${qnABoardVO.qnaPostId}</td>
-								<td>
-									<a href='/qnaboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&qnaPostId=${qnABoardVO.qnaPostId}'> ${qnABoardVO.qnaPostTitle}
-									<strong>[ ${qnABoardVO.qnaPostReplycnt} ]</strong> </a>
-								</td>
-								<td>${qnABoardVO.userNick}</td>
-								<td>
-									<fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${qnABoardVO.qnaPostRegdate}" />
-								</td>
-								<td>
-									<span class="badge bg-red">${qnABoardVO.qnaPostView}</span>
-								</td>
+								<th style="width: 10%">NO</th>
+								<th style="width: 30%">제목</th>
+								<th style="width: 15%">작성자</th>
+								<th style="width: 30%">등록 날짜</th>
+								<th style="width: 15%">조회수</th>
 							</tr>
 
-						</c:forEach>
+							<c:forEach items="${list}" var="qnABoardVO">
 
-					</table>
-				</div>
-				<!-- /.box-body -->
+								<tr>
+									<td>${qnABoardVO.qnaPostId}</td>
+									<td>
+										<a href='/qnaboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&qnaPostId=${qnABoardVO.qnaPostId}'> ${qnABoardVO.qnaPostTitle} <strong>[ ${qnABoardVO.qnaPostReplycnt} ]</strong>
+										</a>
+									</td>
+									<td>${qnABoardVO.userNick}</td>
+									<td>
+										<fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${qnABoardVO.qnaPostRegdate}" />
+									</td>
+									<td>
+										<span class="badge bg-red">${qnABoardVO.qnaPostView}</span>
+									</td>
+								</tr>
+
+							</c:forEach>
+
+						</table>
+					</div>
+					<!-- /.box-body -->
 
 
-				<div class="box-footer">
-
-					<div class="text-center">
+					<div>
 						<ul class="pagination">
 
 							<c:if test="${pageMaker.prev}">
@@ -97,18 +99,16 @@
 							</c:if>
 
 						</ul>
+
 					</div>
-
 				</div>
-				<!-- /.box-footer-->
 			</div>
-		</div>
-		<!--/.col (left) -->
 
-	</div>
-	<!-- /.row -->
-</section>
-<!-- /.content -->
+		</div>
+	</section>
+</div>
+
+
 
 
 <script>

@@ -3,10 +3,6 @@
 <%@include file="../include/carousel.jsp"%>
 <body>
 
-
-
-
-
 	<div class="container" id="login-box">
 
 		<form action="/user/loginPost" method="post" class="form-signin">

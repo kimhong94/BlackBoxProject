@@ -2,9 +2,8 @@ package com.blackboxproject.controller;
 
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
@@ -26,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.blackboxproject.domain.CourseVO;
+import com.blackboxproject.domain.UserCourse;
 import com.blackboxproject.domain.UserVO;
 import com.blackboxproject.dto.CertifyDTO;
 import com.blackboxproject.dto.LoginDTO;
@@ -45,8 +45,7 @@ public class UserController {
 	@Inject
 	private CourseService courseService;
 
-	private UserVO vo;
-
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public void loginGET(@ModelAttribute("dto") LoginDTO dto) {
 		logger.info("login get");
@@ -55,7 +54,7 @@ public class UserController {
 	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public void loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
 
-		vo = service.login(dto);
+		UserVO vo = service.login(dto);
 
 		if (vo == null) {
 			return; // /loginPost로 리턴해서 self.location
@@ -130,12 +129,14 @@ public class UserController {
 
 	// 로그인 후 첫 페이지
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
-	public void checkGET(Model model) throws Exception {
+	public void checkGET(Model model,  HttpServletRequest request) throws Exception {
 		// 회원이 수강중인 교과목번호를 넣는 작업 필요하다
-		// 1. userId에 해당하는 courseId, courseName, courseClass를 
+		// 1. userId에 해당하는 courseId, courseName, courseClass를
 		// jnu_course 테이블과 jnu_user_course를 inner 조인해서 가져온다
+		HttpSession session = request.getSession();
+		UserVO vo = (UserVO) session.getAttribute("login");
 		List<CourseVO> coursevo = courseService.getUserCourseId(vo.getUserId());
-		
+
 		// 그 후에 jnu_course테이블에서 그 교과목 번호에 해당하는 교과목 이름과 분반을 가져와서 model에 붙여준다.
 		model.addAttribute("course", coursevo);
 		logger.info("check get ...........");
@@ -156,7 +157,7 @@ public class UserController {
 	// 5. 받아온 교과목 번호를 jnu_user_course 테이블에 넣기
 	@RequestMapping(value = "/course_auth", method = RequestMethod.POST)
 	public String coursePOST(@ModelAttribute("userSerial") String userSerial,
-			@ModelAttribute("userSerialPw") String userSerialPw, Model model, RedirectAttributes rttr)
+			@ModelAttribute("userSerialPw") String userSerialPw, Model model, RedirectAttributes rttr, HttpServletRequest request)
 			throws Exception {
 		logger.info("course post ...........");
 
@@ -177,30 +178,45 @@ public class UserController {
 			System.out.println("2 =>  " + courseObj);
 			ObjectMapper mapper = new ObjectMapper();
 
-			Map<String, String> results = mapper.readValue(courseObj, Map.class);
-
-			//
-			Iterator<String> keyIter = results.keySet().iterator();
-
-			while (keyIter.hasNext()) {
-				String key = keyIter.next(); // 교과목 이름
-				String value = results.get(key); // 분반
+			List<String> results = mapper.readValue(courseObj, List.class);
+			//아무것도 받아오지않으면 아뒤비번 실패
+			
+			
+			// Iterator<String> keyIter = results.keySet().iterator();
+			List<UserCourse> saveCourseId = new LinkedList<UserCourse>();
+			
+			HttpSession session = request.getSession();
+			UserVO vo = (UserVO) session.getAttribute("login");
+			for (int i = 0; i < results.size(); i++) {
 				/*
 				 * 1. jnu_course 테이블에서 해당 교과목이름과 분반에 해당하는 번호를 가져온다. 2. 그 교과목 번호와 사용자의 id를
 				 * jnu_user_course 테이블에 넣는다
 				 */
-				key = key.substring(0,key.lastIndexOf("("));
+				
+				String key = results.get(i);
+				String value = key.substring(key.lastIndexOf('-')+1, key.length());
+				key = key.substring(0, key.lastIndexOf('-'));
+				
 				System.out.println(key+" "+value);
+				// dao에 2개 물려놓기
 				int courseId = courseService.getCourseId(key, value);
-				//학번도 넣어라 시발
+				// 학번도 넣어라 시발
 				courseService.userToCourse(vo.getUserId(), courseId);
 				// 오께이, 완료// 테스해볼것 월요일에 key값과 value값을 교과목 코드와 분반으로 바꿔주기만하고 테스트 해보면끝.
+				
+				UserCourse usercourse = new UserCourse();
+				usercourse.setUserId(vo.getUserId());
+				usercourse.setCourseId(courseId);
+				saveCourseId.add(usercourse);
 			}
-
-			// 1. 사용자의 인증 여부를 1로 갱신해준다.
+			
+			vo.setUserCourse(saveCourseId);
+			session.setAttribute("login", vo);
 			service.updateHasAuth(vo.getUserId());
 			rttr.addFlashAttribute("msg", "SUCCESS");
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			rttr.addFlashAttribute("msg", "FAIL");
 		}
 

@@ -1,70 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>BBP | Log in</title>
-<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-<!-- Bootstrap 3.3.4 -->
-
-<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<!-- Font Awesome Icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<!-- Theme style -->
-<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-<!-- iCheck -->
-<link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
-
-<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-<!-- Bootstrap 3.3.2 JS -->
-
-
-</head>
+<%@include file="../include/navbar.jsp"%>
 <body class="login-page">
-
-	<div class="login-box">
-		<div class="login-logo">
-			<a href="/user/check"><b>BlackBox</b>Project</a>
-
-		</div>
-		<div class="login-logo">
-			<img src="https://p-flearning.s3.amazonaws.com/uploads/user/avatar/2671/10354686_10150004552801856_220367501106153455_n.jpg" class="user-image" data-reactid=".0.0.0.1.4.0"> 계정 삭제
-		</div>
-
-		<!-- /.login-logo -->
-		<div class="login-box-body">
-
-			<p class="login-box-msg">${login.userCollege}${login.userSerial}<br />${login.userName}(${login.userNick})님 안녕하세요.
-			</p>
-
-		</div>
-		<!-- /.login-box-body -->
-
-
-
+	<div class="container mypageString1">
+		<h1>My Page</h1>
 	</div>
-	<!-- /.login-box -->
-	<div class="login-box">
-		<div class="login-box-body">
 
-			<form role="form" method="post" name="delUser">
-				<h3>
-					<span class="label label-warning">계정을 삭제하면 내가 만든 모든것이 삭제됩니다. 되돌릴 수 없습니다.</span>
-				</h3>
+	<div class="container mypageString2">
+		<h2>내 계정 삭제</h2>
+	</div>
+	<%@include file="../include/mypageProfile.jsp"%>
+
+	<div class="container delete">
+		<form role="form" method="post" name="delUser">
+			<h4 style="text-align: center;">
+				계정을 삭제하면 내가 만든 모든것이 삭제됩니다. <br />되돌릴 수 없습니다.
+			</h4>
+			<br /> <br /> <br /> <br /> <br /> <br />
+			<div style="padding-left:20%;">
 				<input type="checkbox" name="userDelete" value="delete" id="userDelete" />
-				내용을 읽었으며 이에 동의합니다.
+				<strong>내용을 읽었으며 이에 동의합니다.</strong>
 
-				<div class="col-xs-4">
-					<input type="hidden" name="userId" value="${login.userId}">
-					<input type="button" value="계정삭제" onclick="deleteChk()">
-				</div>
-			</form>
+				<input type="hidden" name="userId" value="${login.userId}">
 
-		</div>
+				<input type="button" value="계정삭제" class="btn btn-danger" onclick="deleteChk()">
+			</div>
+		</form>
+
 	</div>
-	<script language="JavaScript" src="/resources/js/userCheck.js"></script>
+
+
 	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<!-- iCheck -->
 	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-</body>
-</html>
+
+	<script>
+		var result = '${msg}';
+
+		if (result == 'SUCCESS') {
+			alert("재 로그인 후 정보가 반영 됩니다.");
+		}
+	</script>
+
+	<%@include file="../include/footer.jsp"%>

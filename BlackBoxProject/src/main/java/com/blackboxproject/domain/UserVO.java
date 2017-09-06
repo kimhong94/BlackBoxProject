@@ -1,6 +1,7 @@
 package com.blackboxproject.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 //세션에 보관되는 것을 관리하는 클래스
 //사용자 
@@ -51,6 +52,16 @@ public class UserVO {
 
 	// 회원 생성 날짜
 	private Timestamp userRegdate;
+	
+	private List<UserCourse> userCourse;
+
+	public List<UserCourse> getUserCourse() {
+		return userCourse;
+	}
+
+	public void setUserCourse(List<UserCourse> userCourse) {
+		this.userCourse = userCourse;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -197,7 +208,10 @@ public class UserVO {
 				+ userNick + ", userName=" + userName + ", userSerial=" + userSerial + ", userEmail=" + userEmail
 				+ ", userAuth=" + userAuth + ", userPhone=" + userPhone + ", userSex=" + userSex + ", userHasAuth="
 				+ userHasAuth + ", userCollege=" + userCollege + ", userSessionkey=" + userSessionkey
-				+ ", userSessionlimit=" + userSessionlimit + ", userRegdate=" + userRegdate + "]";
+				+ ", userSessionlimit=" + userSessionlimit + ", userRegdate=" + userRegdate + ", userCourse="
+				+ userCourse + "]";
 	}
+
+	
 
 }

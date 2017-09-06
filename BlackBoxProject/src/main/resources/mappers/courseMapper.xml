@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="getCourseId" resultType="int">
 		SELECT course_id FROM
-		jnu_course WHERE course_name = #{courseName} and course_class =
+		jnu_course WHERE course_code = #{courseCode} and course_class =
 		#{courseClass}
 	</select>
 
