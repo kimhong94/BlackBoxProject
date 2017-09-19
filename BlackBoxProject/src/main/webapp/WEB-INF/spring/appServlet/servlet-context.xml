@@ -78,7 +78,14 @@
 		</interceptor>
 
 	</interceptors>
-
+	
+	<beans:bean id="courseAuthInterceptor" class = "com.blackboxproject.interceptor.CourseAuthInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/courses/**"/>
+			<beans:ref bean="courseAuthInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
