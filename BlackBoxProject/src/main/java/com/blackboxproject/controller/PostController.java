@@ -1,9 +1,6 @@
 package com.blackboxproject.controller;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.List;
-
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blackboxproject.domain.FileVO;
 import com.blackboxproject.domain.PostVO;
-import com.blackboxproject.domain.UserVO;
 import com.blackboxproject.service.PostService;
 
 
@@ -38,7 +34,7 @@ public class PostController {
 		
 		ResponseEntity<List<PostVO>> entity = null;
 		
-		// 1. 권한인증, 
+		// 1. 권한인증,  
 		// 2. 해당 게시판 글가져오기
 		try {
 			entity = new ResponseEntity<>(postService.getPosts(courseId, boardId), HttpStatus.OK);
