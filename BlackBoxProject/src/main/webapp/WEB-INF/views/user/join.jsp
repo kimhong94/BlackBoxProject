@@ -17,7 +17,7 @@
 				<div class="form-group has-feedback">
 					<input type="text" name="userId" id="userId" class="form-control" placeholder="USER ID" maxlength="20" />
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-				</div>
+				</div> 
 				<!-- 아이디 중복 확인 버튼 -->
 				<input type="button" value="아이디 중복 확인" onclick="javascript:chkDupId();" class="btn btn-primary btn-block btn-flat" />
 				<!-- 아이디 중복확인 체크 여부 -->
