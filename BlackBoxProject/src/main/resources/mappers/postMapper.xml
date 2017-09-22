@@ -34,6 +34,14 @@
 	<select id="getFilesByPostId" resultType="FileVO">
 		SELECT * FROM jnu_file WHERE post_id = #{postId}
 	</select>
+	
+	<update id="updatePostView">
+		UPDATE jnu_post SET post_view = post_view + 1 WHERE post_id = #{postId}
+	</update>
+	
+	<update id="modifyPost">
+		UPDATE jnu_post SET post_content = #{postContent}, post_title = #{postTitle} WHERE post_id = #{postId}
+	</update>
 
 </mapper>
 

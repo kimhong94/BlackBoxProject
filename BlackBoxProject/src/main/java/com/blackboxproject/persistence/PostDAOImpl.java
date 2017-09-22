@@ -54,4 +54,14 @@ public class PostDAOImpl implements PostDAO {
 		return session.selectList(namespace +".getFilesByPostId", postId);
 	}
 
+	@Override
+	public void updatePostView(int postId) {
+		session.update(namespace+".updatePostView", postId);
+	}
+
+	@Override
+	public void modifyPost(PostVO pvo) {
+		session.update(namespace+".modifyPost", pvo);
+	}
+
 }

@@ -53,7 +53,6 @@ public class PostController {
 	public ResponseEntity<PostVO> readPost(@PathVariable("postId")int postId) throws Exception{
 		
 		ResponseEntity<PostVO> entity = null;
-		
 		// 1. 권한 인증
 		
 		// 2. 하나의 게시글 정보 가져오기
@@ -66,6 +65,27 @@ public class PostController {
 		
 		try {
 			entity = new ResponseEntity<>(pvo, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		return entity; 
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/posts/{postId}" , method={RequestMethod.PUT, RequestMethod.PATCH})
+	public ResponseEntity<String> modifyPost(@PathVariable("postId")int postId,@RequestBody PostVO pvo) throws Exception{
+		
+		ResponseEntity<String> entity = null;
+		
+		pvo.setPostId(postId);
+		
+		try {
+			
+			postService.modifyPost(pvo); 
+			
+			entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
 		} catch (Exception e) {
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

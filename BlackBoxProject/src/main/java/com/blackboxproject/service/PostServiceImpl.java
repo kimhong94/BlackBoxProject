@@ -35,19 +35,39 @@ public class PostServiceImpl implements PostService {
 			postDao.addFile(fvo);
 		}
 		
-		// 3. 트랜잭션 처리
+		// 3. 트랜잭션 처리/  가 안되는 것같다.
 	}
 
 	@Override
+	@Transactional
 	public PostVO getPostByPostId(int postId) throws Exception {
 
-		return postDao.getPostByPostId(postId);
 		
+		// 조회수 올리기
+		postDao.updatePostView(postId);
+		//트랜잭션 처리
+		
+		return postDao.getPostByPostId(postId);
 	}
 
 	@Override
 	public List<FileVO> getFilesByPostId(int postId) throws Exception {
 		return postDao.getFilesByPostId(postId);
+	}
+
+	@Override
+	@Transactional
+	public void modifyPost(PostVO pvo) throws Exception {
+		
+		// 1. 컨텐트, 타이틀 업데이트
+		postDao.modifyPost(pvo);
+		
+		// 2. 파일첨부, createPost에서 postId값을 받아온다. mapper 참조
+		List<FileVO> files = pvo.getFiles();
+		for(FileVO fvo : files){
+			fvo.setPostId(pvo.getPostId());
+			postDao.addFile(fvo);
+		}
 	}
 
 }
