@@ -14,6 +14,8 @@ public interface PostService {
 	public PostVO getPostByPostId(int postId) throws Exception;
 
 	public List<FileVO> getFilesByPostId(int postId) throws Exception;
+
+	public void modifyPost(PostVO pvo) throws Exception;
 	
 	
 	

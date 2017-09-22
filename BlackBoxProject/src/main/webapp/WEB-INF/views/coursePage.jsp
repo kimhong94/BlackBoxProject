@@ -19,9 +19,10 @@
 	padding: 30px 15px;
 	margin-bottom: 30px;
 	color: inherit;
-	background-color: #eee;
+	height: 300px; background-color : #eee;
 	background-image:
 		url("http://img.daoki.com/club/playground/data/__149380724169420.jpg");
+	background-color: #eee;
 }
 
 .fileDrop {
@@ -68,11 +69,17 @@
 	height: 200px;
 	float: left;
 }
-.uploadedList{
+
+.uploadedList {
 	width: 100%;
 }
+
 .contentfiles {
 	width: 100%;
+}
+
+.page-body {
+	margin: 30px;
 }
 </style>
 
@@ -81,15 +88,11 @@
 		<div class="container">
 			<h1>${course.courseName }</h1>
 			${login}
-			<p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-			<p>
-				<a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a>
-			</p>
 		</div>
 	</div>
 
 
-	<div class="row">
+	<div class="container-fluid page-body">
 		<div class="col-md-8">
 			<a class="btn btn-default" id="createPostBtn" data-toggle="modal" data-target="#createModal">글작성</a>
 			<ul class="nav nav-tabs" id="boardTab">
@@ -105,16 +108,10 @@
 		</div>
 		<div class="col-md-4">
 			<div class="list-group">
-				<a href="#" class="list-group-item disabled"> Cras justo odio </a> <a href="#" class="list-group-item">Dapibus ac facilisis in</a> <a href="#" class="list-group-item">Morbi leo risus</a> <a href="#" class="list-group-item">Porta ac consectetur ac</a> <a href="#" class="list-group-item">Vestibulum at eros</a>
+				<a href="#" class="list-group-item disabled"> 강 의 목 록 </a> <a href="#" class="list-group-item">Dapibus ac facilisis in</a> <a href="#" class="list-group-item">Morbi leo risus</a> <a href="#" class="list-group-item">Porta ac consectetur ac</a> <a href="#" class="list-group-item">Vestibulum at eros</a>
 			</div>
 		</div>
 	</div>
-
-
-
-	<div class="col-md-4"></div>
-
-
 
 
 	<!-- Modal -->
@@ -138,7 +135,7 @@
 						</div>
 						<div class="form-group">
 							<label for="userNick">닉네임</label>
-							<input type="text" id="userNick" class="form-control" disabled="disabled" value="rnc1234">
+							<input type="text" id="userNick" class="form-control" disabled="disabled" value="${login.userNick}">
 						</div>
 						<div class="form-group">
 							<label for="postContent">내용</label>
@@ -161,9 +158,7 @@
 					<div>
 						<hr>
 					</div>
-					<div class="uploadedList">
-					
-					</div>
+					<div class="uploadedList"></div>
 				</div>
 
 
@@ -172,9 +167,54 @@
 	</div>
 
 
-	${course.toString()}
+
+	<!--Modify Modal -->
+	<div id="postModifyModal" class="modal modal-primary fade" role="dialog">
+		<div class="modal-dialog modal-fullsize">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<form id='modifyPost' role="modifyform" method="post">
+						<input type='hidden' name='postId' value="">
+						<div class="form-group">
+							<label for="postTitle">제목</label>
+							<input type="text" id="postTitle" name="postTitle" class="form-control">
+						</div>
+						<div class="form-group">
+							<label for="postContent">내용</label>
+							<textarea class="form-control" id="postContent" name="postContent" rows="5" placeholder="Enter ..."></textarea>
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">File DROP Here</label>
+							<div class="fileDrop"></div>
+						</div>
+					</form>
+
+					<!-- /.box-body -->
+				</div>
+				<div class="modal-footer">
 
 
+					<button type="button" class="btn btn-info" id="postModBtn">수정하기</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+					<div>
+						<hr>
+					</div>
+					<div class="uploadedList"></div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+
+	${login.userNick }
 
 
 
@@ -198,35 +238,41 @@
 				</ul>
 			</div>
 			<div class='list-profile'>
-				<span> {{userNick}} {{{prettifyDate postRegdate}}} </span>
+				<strong> {{userNick}} </strong> <span> {{{prettifyDate postRegdate}}} </span>
 			</div>
 		</a>
 		<div class="collapse" id="collapse{{postId}}">
+		
+			<div class="panel panel-default clearfix">
+			<div class="panel-body">
+			</div>
 			  <div class="well">
-
 				<div class="row">
 					<div class="contentfiles">
-					
+
 					</div>
 				</div>
 			  </div>
+			</div>
 		</div>
 {{/each}}
 
 </script>
 
-<!-- 삭제 -->
-<script id="templateAttachForRead" type="text/x-handlebars-template">
+	<!-- 삭제 -->
+	<script id="templateAttachForRead" type="text/x-handlebars-template">
     <div class="thumbnail" data-src='{{fullName}}'>
       <img src="{{imgsrc}}" alt="Attachment">
       <div class="caption">
         <a href="{{getLink}}"><h6>{{fileName}}</h6></a>
+		{{#eqWriter userNick}}
         <p><a href="#" class="btn btn-default btn-sm" role="button">삭제</a></p>
+		{{/eqWriter}}
       </div>
     </div>              
 </script>
 
-<script id="templateAttach" type="text/x-handlebars-template">
+	<script id="templateAttach" type="text/x-handlebars-template">
     <div class="thumbnail" data-src='{{fullName}}'>
       <img src="{{imgsrc}}" alt="Attachment">
       <div class="caption">
@@ -236,15 +282,52 @@
     </div>
 </script>
 
+
+<!-- 댓글기능 추가를 위해 템플릿 변경 0922 준우 파이팅 -->
 <script id="templatePostContent" type="text/x-handlebars-template">
 <div class="panel panel-default clearfix">
-	<div class="panel panel-heading clearfix">
-		{{postTitle}}
+	<div class="panel-body postcontent">
+		<pre>{{postContent}}</pre>
 	</div>
-	<div class="panel-body">
-		{{postContent}}
+	{{#eqWriter userNick}}
+	<div class="footer" style="margin:15px">
+     <a class="btn btn-primary ContentmodifyBtn" 
+	    data-toggle="modal" data-target="#postModifyModal">Modify</a>
 	</div>
+	{{/eqWriter}}
 </div>
+<div style="text-align: left;">
+	<div class="col-md-12" style="padding-top: 2%;">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="box-title">새 댓글을 달아보세요!</h3>
+			</div>
+			<div class="panel-body">
+				<label for="exampleInputEmail1">작성자</label>
+				<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter" value="${login.userNick }" readonly="readonly">
+				<br />
+				<label for="exampleInputEmail1">댓글 내용</label>
+				<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
+			</div>
+			<div style="padding-left: 1%; padding-bottom: 1%;">
+				<button type="button" class="btn btn-info" id="replyAddBtn">댓글 달기</button>
+			</div>
+		</div>
+		<ul class="timeline" style=" list-style:none;">
+			<li class="time-label" id="repliesDiv"><a> 댓글 리스트 <small id='replycntSmall'> [ ${qnABoardVO.qnaPostReplycnt} ] </small>
+			</a></li>
+
+		</ul>
+		<div class='text-center'>
+			<ul id="pagination" class="pagination pagination-sm no-margin ">
+
+			</ul>
+		</div>
+	</div>
+<!-- /.col -->
+</div>
+	
+
 </script>
 
 
@@ -256,11 +339,21 @@
 			var date = dateObj.getDate();
 			return year + "/" + month + "/" + date;
 		});
-		
+
+		Handlebars.registerHelper("eqWriter", function(writer, block) {
+			var accum = '';
+			if (writer == userNick) {
+				accum += block.fn();
+			}
+			return accum;
+		});
+
 		/* 첨부파일 템플릿 */
 		var template = Handlebars.compile($("#templateAttach").html());
-		var templateAttach4Read = Handlebars.compile($("#templateAttachForRead").html());
-		var templatePostContent = Handlebars.compile($("#templatePostContent").html());
+		var templateAttach4Read = Handlebars
+				.compile($("#templateAttachForRead").html());
+		var templatePostContent = Handlebars.compile($("#templatePostContent")
+				.html());
 	</script>
 
 
@@ -271,13 +364,15 @@
 		});
 
 		$(".fileDrop").on("drop", function(event) {
+			var modal = $(this).parents(".modal");
+			alert(modal.length);
 			event.preventDefault();
 			var files = event.originalEvent.dataTransfer.files;
 			alert("drop");
 			var file = files[0];
 
 			var formData = new FormData();
-			
+
 			formData.append("file", file);
 
 			$.ajax({
@@ -293,7 +388,7 @@
 
 					var html = template(fileInfo);
 
-					$(".uploadedList").append(html);
+					modal.find(".uploadedList").append(html);
 				}
 			});
 		});
@@ -303,7 +398,7 @@
 		// 현재 선택된 게시판
 		var boardId;
 		var courseId = ${course.courseId};
-		
+		var userNick = "${login.userNick}";
 		/* 자유, 공지 게시판 불러오기 */
 		$("#boardTab").on("click", "li", function() {
 			boardId = $(this).attr("data-bid");
@@ -325,141 +420,229 @@
 			$.getJSON(pageInfo, function(data) {
 				printData(data, $("#postDiv .list-group"), $('#templatePost'));
 
-				/* 				$("#modifyModal").modal('hide');
+				/* 				$("#postModifyModal").modal('hide');
 				 $("#replycntSmall")
 				 .html("[" + data.pagemarker.totalCount + "]"); */
 			});
 		}
-		
-		
+
 		/* 게시글 내용 불러오기 */
-		$("#postDiv").on("show.bs.collapse", ".collapse",function () {
-			
-			// 이미 load 된 내용은 가져오지 않는다.
-			if($(this).data("loaded") == 1){
+		$("#postDiv").on(
+				"show.bs.collapse",
+				".collapse",
+				function() {
+
+					// 이미 load 된 내용은 가져오지 않는다.
+					if ($(this).data("loaded") == 1) {
+						return;
+					}
+
+					var postListObj = $(this).prevAll(".postList");
+					var postId = postListObj.data("pid");
+					var userNick = postListObj.find(".list-profile strong")
+							.text().trim();
+
+					var postCollapse = $(this);
+					var postFileObj = $(this).find(".well .contentfiles");
+					var postContentObj = $(this).find(".panel-body");
+
+					$.ajax({
+						url : '/posts/' + postId,
+						dataType : 'text',
+						processData : false,
+						contentType : false,
+						type : 'GET',
+						success : function(data) {
+
+							var post = JSON.parse(data);
+
+							// 내용 추가
+							var content = templatePostContent(post);
+							postContentObj.prepend(content);
+
+							// 파일 추가
+							if (post.files.length == 0) {
+								postFileObj.append("<p>첨부된 파일이 없습니다.</p>")
+							}
+							$.each(post.files, function(index) {
+
+								var fileInfo = getFileInfo(this.fileName);
+								fileInfo.userNick = this.userNick;
+								//fileInfo.userNick = this.userNick;
+								var html = templateAttach4Read(fileInfo);
+
+								postFileObj.append(html);
+							});
+
+							// 내용을 불러왔음을 체크
+							postCollapse.data("loaded", 1);
+						}
+					});
+				});
+	</script>
+
+	<script>
+		/* 게시글 올리기
+			파일 중복업로드 수정 0919
+		 */
+		$("#postAddBtn").on(
+				"click",
+				function() {
+
+					var postTitle = $("#postTitle").val();
+					var postContent = $("#postContent").val();
+					var userNick = $("#userNick").val();
+					var filesObj = $(".uploadedList .thumbnail");
+
+					var fileArr = new Array();
+
+					var modalObj = $('#createModal');
+
+					$.each(filesObj, function(index, item) {
+
+						var fullName = $(this).attr("data-src");
+						var fileName = $(this).find("h6").text();
+						var file = new Object();
+						file.fileName = fullName
+						file.fileOriginname = fileName;
+						file.userNick = userNick;
+						fileArr[index] = file;
+					});
+
+					$.ajax({
+						type : 'post',
+						url : '/posts',
+						headers : {
+							"Content-Type" : "application/json",
+							"X-HTTP-Method-Override" : "POST"
+						},
+						data : JSON.stringify({
+							courseId : courseId,
+							boardId : boardId,
+							postTitle : postTitle,
+							postContent : postContent,
+							userNick : userNick,
+							files : fileArr
+						}),
+						dataType : 'text',
+						success : function(result) {
+							alert(result)
+							if (result == 'SUCCESS') {
+								getPage("/courses/" + courseId + "/board/"
+										+ boardId + "/posts");
+								modalObj.modal('hide');
+
+								// 폼 초기화
+								modalObj.find("input[type='text'], textarea")
+										.val("");
+								modalObj.find(".uploadedList .thumbnail")
+										.remove();
+							}
+						}
+					});
+
+				});
+
+		/*게시글 수정하기 - 모달창 띄우기*/
+		$("#postDiv").on("click", ".collapse .ContentmodifyBtn", function() {
+
+			var contentObj = $(this).parents(".collapse");
+			var contentHeadObj = contentObj.prev();
+
+			var postId = contentHeadObj.data("pid");
+			var title = contentHeadObj.find("h4").text();
+			var content = contentObj.find(".postcontent").text().trim();
+
+			var modal = $("#postModifyModal");
+			modal.find("#postContent").val(content);
+			modal.find("#postTitle").val(content);
+			modal.find("input[name=postId]").val(postId);
+
+		});
+		/*게시글 수정 - 업데이트하기*/
+		$("#postModBtn").on(
+				"click",
+				function() {
+
+					var modalObj = $(this).parents("#postModifyModal");
+					var postId = modalObj.find("input[name=postId]").val();
+
+					var postContent = modalObj.find("#postContent").val();
+					var postTitle = modalObj.find("#postTitle").val();
+
+					var filesObj = modalObj.find(".uploadedList .thumbnail");
+					var fileArr = new Array();
+					$.each(filesObj, function(index, item) {
+
+						var fullName = $(this).attr("data-src");
+						var fileName = $(this).find("h6").text();
+						var file = new Object();
+						file.fileName = fullName
+						file.fileOriginname = fileName;
+						file.userNick = userNick;
+						fileArr[index] = file;
+					});
+					alert(postContent + "  :  " + postTitle);
+					$.ajax({
+						type : 'put',
+						url : '/posts/' + postId,
+						headers : {
+							"Content-Type" : "application/json",
+							"X-HTTP-Method-Override" : "PUT"
+						},
+						data : JSON.stringify({
+							postTitle : postTitle,
+							postContent : postContent,
+							files : fileArr
+						}),
+						dataType : 'text',
+						success : function(result) {
+							alert(result);
+							if (result == 'SUCCESS') {
+								getPage("/courses/" + courseId + "/board/"
+										+ boardId + "/posts");
+								modalObj.modal('hide');
+
+								// 폼 초기화
+								modalObj.find("input[type='text'], textarea")
+										.val("");
+								modalObj.find(".uploadedList .thumbnail")
+										.remove();
+							}
+						}
+					});
+
+				});
+	</script>
+
+	<script>
+		/* 모달창 조작 */
+		$('#createModal').on('shown.bs.modal', function(event) {
+
+			if (boardId == null || boardId == 0) {
+				alert("게시판을 선택하세요.");
+				$("#createModal").modal("hide");
 				return;
 			}
-			
-			var postListObj = $(this).prevAll(".postList");
-			var postId = postListObj.data("pid");
-			
-			var postCollapse = $(this);
-			var postFileObj = $(this).find(".well .contentfiles");
-			var postContentObj = $(this).find(".well");
-			
-			$.ajax({
-				url : '/posts/' + postId,
-				dataType : 'text',
-				processData : false,
-				contentType : false,
-				type : 'GET',
-				success : function(data) {
-					
-					var post = JSON.parse(data);
-					
-					// 내용 추가
-					var content = templatePostContent(post);
-					postContentObj.prepend(content);
-					
-					// 파일 추가
-					$.each(post.files, function(index){
-						
-						var fileInfo = getFileInfo(this.fileName);
-	
-						var html = templateAttach4Read(fileInfo);
-	
-						postFileObj.append(html);
-					});
-					
-  					// 내용을 불러왔음을 체크
-					postCollapse.data("loaded", 1);
-				}
-			});
+
+			var board = $("[data-bid=" + boardId + "]").text();
+			var modal = $(this);
+			modal.find('#postBoard').val(board);
+			// 닉네임 창에 닉네임 넣기
 		});
-	</script>
-
-	<script>
-		/* 게시글 올리기  */
-
-		$("#postAddBtn").on("click", function() {
-
-			var postTitle = $("#postTitle").val();
-			var postContent = $("#postContent").val();
-			var userNick = $("#userNick").val();
-			var filesObj = $(".thumbnail");
-			
-			var fileArr = new Array();
-			
-			var modalObj = $('#createModal');
-			
-			$.each(filesObj, function(index, item) {
-
-				var fullName = $(this).attr("data-src");
-				var fileName = $(this).find("h6").text();
-				var file = new Object();
-				file.fileName = fullName
-				file.fileOriginname = fileName;
-				file.userNick = userNick;
-				fileArr[index] = file;
-			});
-			
-			$.ajax({
-				type : 'post',
-				url : '/posts',
-				headers : {
-					"Content-Type" : "application/json",
-					"X-HTTP-Method-Override" : "POST"
-				},
-				data : JSON.stringify({
-					courseId : courseId,
-					boardId : boardId,
-					postTitle : postTitle,
-					postContent : postContent,
-					userNick : userNick,
-					files : fileArr
-				}),
-				dataType : 'text',
-				success : function(result) {
-						alert(result)
-					if (result == 'SUCCESS') {
-						getPage("/courses/" + courseId + "/board/" + boardId + "/posts");
-						modalObj.modal('hide');
-						
-						// 폼 초기화
-						modalObj.find("input[type='text'], textarea").val("");
-						modalObj.find(".uploadedList .thumbnail").remove();
-					}
-				}
-			});
-
-		});
-		
-		
-	</script>
-	
-	<script>
-	/* 모달창 조작 */
-	$('#createModal').on('shown.bs.modal', function (event) {
-		
-		if(boardId == null || boardId==0){
-			alert("게시판을 선택하세요.");
-			$("#createModal").modal("hide");
-			return;
-		}
-		
-		var board = $("[data-bid=" + boardId +"]").text();
-		var modal = $(this);
-		modal.find('#postBoard').val(board);
-		// 닉네임 창에 닉네임 넣기
-	});
-		
-	
 	</script>
 </body>
 </html>
 
 <!-- 게시판 선택안하면 모달창이 뜨지 않게 하기  ok-->
 <!-- 게시글 내용 표시하기  ok-->
-<!-- 게시글에 권한에 수정버튼-->
-<!-- 파일 삭제기능 -->
+<!-- 파일 중복업로드 수정 0919 -->
+<!-- Content 템플릿 구조 변경 0919-->
+<!-- 조회수 업데이트 0920  -->
+
+<!-- 게시글에 권한에 수정버튼 0921-->
+
+<!-- 파일 삭제기능  프론트구현0921, 백엔드 구현하기-->
+
+<!-- 댓글기능 합치기  -->
 <!-- 홈 게시판의 강의 소개는 어떻게 구혀할 것인가? -->

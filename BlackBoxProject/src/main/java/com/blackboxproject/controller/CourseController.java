@@ -41,9 +41,8 @@ public class CourseController {
 		System.out.println("coursePage : " + vo);
 		
 		
-		// coursePage
-		// 1. 강의회차 정보 가져오기 ajax,  where course_id ~, board_id ~
-		// 2. 질문 , 공지 게시판 누를경우 정보 가져오기 ajax, 
+		// 3. 강의회차 정보 가져와서 전달
+		
 		return "/coursePage";
 	}
 }

@@ -19,5 +19,9 @@ public interface PostDAO {
 	public PostVO getPostByPostId(int postId) throws Exception;
 
 	public List<FileVO> getFilesByPostId(int postId) throws Exception;
+
+	public void updatePostView(int postId);
+
+	public void modifyPost(PostVO pvo);
 	
 }
