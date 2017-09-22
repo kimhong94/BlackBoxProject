@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and qna_post_content like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'w'.toString()">
-				and qna_post_writer like CONCAT('%', #{keyword}, '%')
+				and user_nick like CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'tc'.toString()">
 				and ( qna_post_title like CONCAT('%', #{keyword}, '%') OR

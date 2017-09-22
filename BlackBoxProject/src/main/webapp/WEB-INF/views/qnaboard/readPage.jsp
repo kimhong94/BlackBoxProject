@@ -92,8 +92,10 @@
 
 
 					<ul class="timeline" style=" list-style:none;">
-						<li class="time-label" id="repliesDiv"><a> 댓글 리스트 <small id='replycntSmall'> [ ${qnABoardVO.qnaPostReplycnt} ] </small>
-						</a></li>
+						<li class="time-label" id="repliesDiv">
+						<a> 댓글 리스트 <small id='replycntSmall'> [ ${qnABoardVO.qnaPostReplycnt} ] </small> </a>
+						</li>
+						
 						
 					</ul>
 

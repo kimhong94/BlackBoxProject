@@ -1,56 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>BBP | Join</title>
-<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-<!-- Bootstrap 3.3.4 -->
+<%@include file="../include/navbar.jsp"%>
+<%@include file="../include/carousel.jsp"%>
+<body>
 
-<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<!-- Font Awesome Icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<!-- Theme style -->
-<link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-<!-- iCheck -->
-<link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
+	<div class="container" id="login-box"  style="text-align:center;">
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body class="login-page">
-	<div class="login-box">
-		<div class="login-logo">
-			<a href="/user/login"><b>BlackBox</b>Project</a>
-		</div>
-		<!-- /.login-logo -->
-		<div class="login-box-body">
-			<p class="login-box-msg">회원종류선택</p>
+		<h2 class="form-signin-heading" style="text-align:center;">회원종류선택</h2>
+		<form action="/user/join" role="form" method="get">
 
-			<form action="/user/join" role="form" method="get">
+			<div class="col-xs-4"  style=" margin-left: 16%;">
+				<input type="hidden" name="userAuth" value="p" />
+				<button type="submit" class="btn btn-primary btn-block btn-flat">교수</button>
+			</div>
 
-				<div class="col-xs-6">
-					<input type="hidden" name="userAuth" value="p" />
-					<button type="submit" class="btn btn-primary btn-block btn-flat">교수</button>
-				</div>
+		</form>
 
-			</form>
+		<form action="/user/join" role="form" method="get">
+			<div class="col-xs-4">
+				<input type="hidden" name="userAuth" value="s" />
+				<button type="submit" class="btn btn-primary btn-block btn-flat">학생</button>
+			</div>
 
-			<form action="/user/join" role="form" method="get">
-				<div class="col-xs-6">
-					<input type="hidden" name="userAuth" value="s" />
-					<button type="submit" class="btn btn-primary btn-block btn-flat">학생</button>
-				</div>
-
-			</form>
-
-		</div>
-		<!-- /.login-box-body -->
+		</form>
+		
 	</div>
+	<!-- /.login-box-body -->
 	<!-- /.login-box -->
 
 	<!-- jQuery 2.1.4 -->
@@ -60,5 +34,4 @@
 	<!-- iCheck -->
 	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
-</body>
-</html>
+	<%@include file="../include/footer.jsp"%>
