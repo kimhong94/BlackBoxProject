@@ -36,8 +36,8 @@
 					<input type="password" name="userPwCheck" id="userPwCheck" class="form-control" placeholder="Password" />
 					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				</div>
-
-				이름 :
+ 
+				이름 : 
 				<div class="form-group has-feedback">
 					<input type="text" name="userName" id="userName" class="form-control" placeholder="Name" />
 					<span class="glyphicon glyphicon-user form-control-feedback"></span>
