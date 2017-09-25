@@ -43,18 +43,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="item three">
-			<img class="third-slide">
-			<div class="container">
-				<div class="carousel-caption">
-					<h1>One more for good measure.</h1>
-					<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-					<p>
-						<a class="btn btn-lg btn-primary" class="Bcenter" href="#" role="button">Browse gallery</a>
-					</p>
-				</div>
-			</div>
-		</div>
 	</div>
 	<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span>
 	</a> <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>

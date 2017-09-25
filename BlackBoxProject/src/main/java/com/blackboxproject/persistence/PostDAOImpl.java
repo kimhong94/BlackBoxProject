@@ -78,6 +78,15 @@ public class PostDAOImpl implements PostDAO {
 	@Override
 	public FileVO getFilePathForLecture(int postId) throws Exception {
 		return session.selectOne(namespace+".getFilePathForLecture", postId);
+
+	public void updateReplyCnt(Integer postId, int amount) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("postId", postId);
+		paramMap.put("amount", amount);
+		session.update(namespace + ".updateReplyCnt", paramMap);
+
 	}
 
 }

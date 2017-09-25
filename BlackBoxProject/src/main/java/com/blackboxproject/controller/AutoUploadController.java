@@ -74,7 +74,7 @@ public class AutoUploadController {
 
 		System.out.println(fileName);
 		// fileName = "2017_09_21_10.30.12_공7_218";
-
+		// 
 		int year = Integer.parseInt(fileName.substring(0, 4)); // 년
 		int month = Integer.parseInt(fileName.substring(5, 7)); // 월
 		int day = Integer.parseInt(fileName.substring(8, 10)); // 일
@@ -129,14 +129,15 @@ public class AutoUploadController {
 
 		// 없을 시에 하이픈 제거하고 검색하기
 		if (vo == null) {
+			
+			
 			courseClassroom = building + roomNumber;
 			vo = service.getFileName(courseTime, courseClassroom);
 		}
 
 		String result = vo.getCourseCode() + "-" + vo.getCourseClass();
 		System.out.println(result); // 예를 들어, CLT0573-1 
-		//2017_09_20_CLT0573-1_1~100 
-		result = "CLT0573-1";
+
 		return new ResponseEntity<String>(result, HttpStatus.CREATED);
 	}
 

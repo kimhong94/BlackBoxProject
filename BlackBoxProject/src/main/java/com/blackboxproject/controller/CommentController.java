@@ -14,28 +14,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blackboxproject.domain.Criteria;
-import com.blackboxproject.domain.PageMaker;
-import com.blackboxproject.domain.QnAReplyVO;
-import com.blackboxproject.service.QnAReplyService;
+import com.blackboxproject.domain.CommentVO;
+import com.blackboxproject.service.CommentService;
 
 @RestController
-@RequestMapping("/replies")
-public class QnAReplyController {
+@RequestMapping("/reply")
+public class CommentController {
 
 	@Inject
-	private QnAReplyService service;
+	private CommentService service;
 
 	// 댓글 작성하기
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<String> register(@RequestBody QnAReplyVO vo) {
+	public ResponseEntity<String> register(@RequestBody CommentVO vo) {
 
 		ResponseEntity<String> entity = null;
 		try {
 			service.addReply(vo);
 			int getSeq = service.getSeq();
-			vo.setQnaCommentId(getSeq);
-			vo.setQnaCommentGroupId(getSeq);
+			vo.setCommentId(getSeq);
+			vo.setCommentGroupId(getSeq);
 			service.setGroupId(vo);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 
@@ -48,7 +46,7 @@ public class QnAReplyController {
 
 	// 재 댓글 작성하기
 	@RequestMapping(value = "/re", method = RequestMethod.POST)
-	public ResponseEntity<String> reregister(@RequestBody QnAReplyVO vo) {
+	public ResponseEntity<String> reregister(@RequestBody CommentVO vo) {
 
 		ResponseEntity<String> entity = null;
 		try {
@@ -64,13 +62,12 @@ public class QnAReplyController {
 	}
 
 	// 댓글 수정하기
-	@RequestMapping(value = "/{qnaCommentId}", method = { RequestMethod.PUT, RequestMethod.PATCH })
-	public ResponseEntity<String> update(@PathVariable("qnaCommentId") Integer qnaCommentId,
-			@RequestBody QnAReplyVO vo) {
+	@RequestMapping(value = "/{commentId}", method = { RequestMethod.PUT, RequestMethod.PATCH })
+	public ResponseEntity<String> update(@PathVariable("commentId") Integer commentId, @RequestBody CommentVO vo) {
 
 		ResponseEntity<String> entity = null;
 		try {
-			vo.setQnaCommentId(qnaCommentId);
+			vo.setCommentId(commentId);
 			service.modifyReply(vo);
 
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
@@ -81,12 +78,12 @@ public class QnAReplyController {
 		return entity;
 	}
 
-	//댓글 삭제하기
-	@RequestMapping(value = "/{qnaCommentId}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> remove(@PathVariable("qnaCommentId") Integer qnaCommentId) {
+	// 댓글 삭제하기
+	@RequestMapping(value = "/{commentId}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> remove(@PathVariable("commentId") Integer commentId) {
 		ResponseEntity<String> entity = null;
 		try {
-			service.removeReply(qnaCommentId);
+			service.removeReply(commentId);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,27 +92,20 @@ public class QnAReplyController {
 		return entity;
 	}
 
-	//댓글들 보여주기
-	@RequestMapping(value = "/{qnaPostId}/{page}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("qnaPostId") int qnaPostId,
-			@PathVariable("page") int page) {
+	// 댓글들 보여주기
+	@RequestMapping(value = "/{postId}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("postId") int postId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 
 		try {
-			Criteria cri = new Criteria();
-			cri.setPage(page);
-
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
 
 			Map<String, Object> map = new HashMap<String, Object>();
-			List<QnAReplyVO> list = service.listReplyPage(qnaPostId, cri);
+			List<CommentVO> list = service.listReplyPage(postId);
 			map.put("list", list);
 
-			int replyCount = service.count(qnaPostId);
-			pageMaker.setTotalCount(replyCount);
+			int replyCount = service.count(postId);
 
-			map.put("pageMaker", pageMaker);
+			map.put("replyCount", replyCount);
 			entity = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -126,4 +116,5 @@ public class QnAReplyController {
 		return entity;
 
 	}
+
 }

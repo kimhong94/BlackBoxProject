@@ -77,5 +77,12 @@ public class QnAReplyServiceImpl implements QnAReplyService {
 		replyDAO.setGId(vo);
 		
 	}
+	
+
+	@Override
+	public List<QnAReplyVO> getRecentComment(String userNick) throws Exception {
+		// TODO Auto-generated method stub
+		return replyDAO.getRecentComment(userNick);
+	}
 
 }

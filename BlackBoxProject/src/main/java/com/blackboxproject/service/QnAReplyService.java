@@ -13,6 +13,8 @@ public interface QnAReplyService {
 	public void removeReply(int qnaCommentId) throws Exception;
 
 	public List<QnAReplyVO> listReplyPage(Integer qnaPostId, Criteria cri) throws Exception;
+	
+	public List<QnAReplyVO> getRecentComment(String userNick) throws Exception;
 
 	public int count(Integer qnaPostId) throws Exception;
 

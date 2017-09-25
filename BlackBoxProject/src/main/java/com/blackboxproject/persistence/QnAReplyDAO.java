@@ -14,7 +14,9 @@ public interface QnAReplyDAO {
 	public void delete(int qnaCommentId) throws Exception;
 
 	public List<QnAReplyVO> listPage(Integer qnaPostId, Criteria cri) throws Exception;
-
+	
+	public List<QnAReplyVO> getRecentComment(String userNick) throws Exception;
+	
 	public int count(Integer qnaPostId) throws Exception;
 
 	public int getSeq() throws Exception;
