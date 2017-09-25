@@ -85,6 +85,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{qnaCommentGroupId} where
 		qna_comment_id = #{qnaCommentId}
 	</update>
+	
+		<select id="getRecentComment" resultType="QnAReplyVO">
+		select * from
+		qna_comment
+		where user_nick=#{userNick}
+		order by qna_comment_regdate desc
+	</select>
 
 
 </mapper>

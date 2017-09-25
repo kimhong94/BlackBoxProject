@@ -9,8 +9,10 @@
 <!-- Bootstrap 3.3.4 -->
 <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="/resources/bootstrap/js/bootstrap.min.js" rel="stylesheet" type="" />
-
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/carousel.css?ver=1">
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/reply.css?ver=1">
 <!-- handlebars -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
 </head>
@@ -19,7 +21,8 @@
 	padding: 30px 15px;
 	margin-bottom: 30px;
 	color: inherit;
-	height: 300px; background-color : #eee;
+	height: 300px;
+	background-color: #eee;
 	background-image:
 		url("http://img.daoki.com/club/playground/data/__149380724169420.jpg");
 	background-color: #eee;
@@ -102,7 +105,7 @@
 			</ul>
 			<div id="postDiv">
 				<ul class="list-group">
-
+					<!--게시판 글 내용 보여주기  -->
 				</ul>
 			</div>
 		</div>
@@ -150,7 +153,6 @@
 					<!-- /.box-body -->
 				</div>
 				<div class="modal-footer">
-
 
 					<button type="button" class="btn btn-info" id="postAddBtn">등록하기</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -214,6 +216,71 @@
 	</div>
 
 
+	<!-- commentModify Modal -->
+	<div class="modal modal-default fade" id="modifyModal" role="dialog" aria-labelledby="modalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body" data-rno>
+					<p>
+						<input type="hidden" id="rePostId">
+						<input type="text" id="commentContent" class="form-control">
+					</p>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-info" id="replyModBtn">수정</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-danger" id="replyDelBtn">삭제</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- rereply Modal -->
+	<div id="rereplyModal" class="modal modal-default fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"></h4>
+				</div>
+
+				<div class="modal-body" data-rno>
+					<p>
+						<input type="text" id="reCommentContent" class="form-control">
+						<input type="hidden" id="reCommentGroupId">
+						<input type="hidden" id="rePostId">
+						<input type="hidden" id="reCommentStep">
+						<input type="hidden" id="reCommentIndent">
+						<input type="hidden" id="reuserNick" class="userNick" value="${login.userNick }">
+					</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" id="rereplyBtn">답글 달기</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
 	${login.userNick }
 
 
@@ -224,6 +291,7 @@
 	<!-- Bootstrap 3.3.2 JS -->
 	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
+	<!-- 누르기 전 리스트 -->
 	<script id="templatePost" type="text/x-handlebars-template">
 
 {{#each .}}
@@ -283,17 +351,16 @@
 </script>
 
 
-<!-- 댓글기능 추가를 위해 템플릿 변경 0922 준우 파이팅 -->
-<script id="templatePostContent" type="text/x-handlebars-template">
+	<!-- 댓글기능 추가를 위해 템플릿 변경 0922 준우 파이팅 -->
+	<script id="templatePostContent" type="text/x-handlebars-template">
 <div class="panel panel-default clearfix">
 	<div class="panel-body postcontent">
 		<pre>{{postContent}}</pre>
 	</div>
+
 	{{#eqWriter userNick}}
-	<div class="footer" style="margin:15px">
      <a class="btn btn-primary ContentmodifyBtn" 
 	    data-toggle="modal" data-target="#postModifyModal">Modify</a>
-	</div>
 	{{/eqWriter}}
 </div>
 <div style="text-align: left;">
@@ -314,19 +381,61 @@
 			</div>
 		</div>
 		<ul class="timeline" style=" list-style:none;">
-			<li class="time-label" id="repliesDiv"><a> 댓글 리스트 <small id='replycntSmall'> [ ${qnABoardVO.qnaPostReplycnt} ] </small>
+			<li class="time-label" id="repliesDiv"><a> 댓글 리스트 <small id='replycntSmall'>  </small>
 			</a></li>
 
 		</ul>
-		<div class='text-center'>
-			<ul id="pagination" class="pagination pagination-sm no-margin ">
 
-			</ul>
-		</div>
+
 	</div>
 <!-- /.col -->
 </div>
 	
+
+</script>
+
+	<script id="template" type="text/x-handlebars-template">
+
+{{#each .}}
+<div class="row">
+	<li class="replyLi" data-rno={{commentId}}>
+	<div class="message-item">
+		<div class="message-inner">
+			<div class="message-head clearfix">
+				
+					<div class="timeline-item indent" data-indent={{commentIndent}}>
+
+							<div class="user-detail">
+							<h5 class="handle">
+								<strong>{{commentId}}</strong> -{{userNick}}
+							</h5>
+
+							<div class="post-meta">
+								<div class="asker-meta">
+									<span class="time"> <i class="fa fa-clock-o"></i>{{prettifyDate commentRegdate}}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div class="message-head clearfix">
+			<div class="timeline-body">{{commentContent}}</div></div>
+			<input type="hidden" id="commentGroupId" value="{{commentGroupId}}">
+			<input type="hidden" id="commentStep" value="{{commentStep}}">
+			<input type="hidden" id="commentIndent" value="{{commentIndent}}">
+
+			
+			<div class="timeline-footer" >
+				{{#eqReplyer userNick}} <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modifyModal">수정 하기</a> {{/eqReplyer}}
+ <a class="btn btn-info btn-xs" data-toggle="modal" data-target="#rereplyModal">답글 달기</a>
+			</div>
+	
+			</div>
+		</div>
+		</li>
+</div>
+{{/each}}
 
 </script>
 
@@ -397,7 +506,9 @@
 	<script>
 		// 현재 선택된 게시판
 		var boardId;
-		var courseId = ${course.courseId};
+		var courseId = ${
+			course.courseId
+		};
 		var userNick = "${login.userNick}";
 		/* 자유, 공지 게시판 불러오기 */
 		$("#boardTab").on("click", "li", function() {
@@ -424,6 +535,7 @@
 				 $("#replycntSmall")
 				 .html("[" + data.pagemarker.totalCount + "]"); */
 			});
+
 		}
 
 		/* 게시글 내용 불러오기 */
@@ -482,8 +594,216 @@
 	</script>
 
 	<script>
+		//준우, 댓글 관련 부분
+
+		//준우, 댓글 권한 확인
+		Handlebars.registerHelper("eqReplyer", function(userNick, block) {
+			var accum = '';
+			if (userNick == '${login.userNick}') {
+				accum += block.fn();
+			}
+			return accum;
+		});
+
+		var printCommentData = function(replyArr, target, templateObject) {
+
+			var template = Handlebars.compile(templateObject.html());
+
+			var html = template(replyArr);
+			$(".replyLi").remove();
+			target.after(html);
+		}
+
+		function getCommentPage(pageInfo) {
+
+			$.getJSON(pageInfo, function(data) {
+				printCommentData(data.list, $("#repliesDiv"), $('#template'));
+
+				getIndent();
+
+				$("#replycntSmall").html("[ " + data.replyCount + " ]");
+				$("#reCommentContent").val(" ");
+				$("#modifyModal").modal('hide');
+				$("#rereplyModal").modal('hide');
+
+			});
+		}
+
+		$("#postDiv").on("click", "#repliesDiv", function() {
+
+			if ($(".timeline li").size() > 1) {
+				return;
+			}
+			var postListObj = $(this).parents(".collapse").prev(".postList");
+			var postId = postListObj.data("pid");
+			getCommentPage("/reply/" + postId);
+
+		});
+
+		//댓글달기 버튼 눌렀을 때, 준우
+		$("#postDiv").on("click", "#replyAddBtn", function() {
+
+			var postListObj = $(this).parents(".collapse").prev(".postList");
+			var postId = postListObj.data("pid");
+			alert(postId);
+			var replyerObj = $("#newReplyWriter");
+			var replytextObj = $("#newReplyText");
+			var userNick = replyerObj.val();
+			var commentContent = replytextObj.val();
+
+			if (commentContent.length == 0) {
+				alert("빈칸이 있습니다.");
+				return;
+			}
+
+			$.ajax({
+				type : 'post',
+				url : '/reply/',
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "POST"
+				},
+				dataType : 'text',
+				data : JSON.stringify({
+					postId : postId,
+					userNick : userNick,
+					commentContent : commentContent
+				}),
+				success : function(result) {
+					console.log("result: " + result);
+					if (result == 'SUCCESS') {
+						alert("등록 되었습니다.");
+						getCommentPage("/reply/" + postId);
+						replytextObj.val("");
+					}
+				}
+			});
+		});
+
+		$("#postDiv").on("click", ".replyLi", ".timeline", function(event) {
+			if ($(this).data("loaded") == 1) {
+				return;
+			}
+			var reply = $(this);
+			var postListObj = $(this).parents(".collapse").prev(".postList");
+			var postId = postListObj.data("pid");
+
+			$("#rePostId").val(postId);
+			$("#commentContent").val(reply.find('.timeline-body').text());
+			$("#reCommentGroupId").val(reply.find('#commentGroupId').val());
+			$("#reCommentStep").val(reply.find('#commentStep').val());
+			$("#reCommentIndent").val(reply.find('#commentIndent').val());
+			$(".modal-title").html(reply.attr("data-rno"));
+
+		});
+
+		$("#replyModBtn").on("click", function() {
+			var commentId = $(".modal-title").html();
+			var commentContent = $("#commentContent").val();
+			var postId = $("#rePostId").val();
+			$.ajax({
+				type : 'put',
+				url : '/reply/' + commentId,
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "PUT"
+				},
+				data : JSON.stringify({
+					commentContent : commentContent
+				}),
+				dataType : 'text',
+				success : function(result) {
+					console.log("result: " + result);
+					if (result == 'SUCCESS') {
+						alert("수정 되었습니다.");
+						getCommentPage("/reply/" + postId);
+					}
+				}
+			});
+		});
+
+		/*재 댓글 달기  */
+		$("#rereplyBtn").on("click", function() {
+			var commentContent = $("#reCommentContent").val();
+			var commentGroupId = $("#reCommentGroupId").val();
+			var commentStep = $("#reCommentStep").val();
+			var commentIndent = $("#reCommentIndent").val();
+			var userNick = $("#reuserNick").val();
+			var postId = $("#rePostId").val();
+			if (commentContent.length == 0) {
+				alert("빈칸이 있습니다.");
+				return;
+			}
+			$.ajax({
+				type : 'post',
+				url : '/reply/re',
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "POST"
+				},
+				data : JSON.stringify({
+					postId : postId,
+					commentContent : commentContent,
+					commentGroupId : commentGroupId,
+					commentStep : commentStep,
+					commentIndent : commentIndent,
+					userNick : userNick
+				}),
+				dataType : 'text',
+				success : function(result) {
+					console.log("result: " + result);
+					if (result == 'SUCCESS') {
+						alert("등록 되었습니다.");
+						getCommentPage("/reply/" + postId);
+					}
+				}
+			});
+		});
+
+		function getIndent() {
+			var indent = $("div.timeline-item.indent");
+
+			$.each(indent, function(index, item) {
+
+				var num = $(this).attr("data-indent");
+				var get = (95 - (num * 5));
+
+				if (num != 0) {
+
+					$(this).parents(".message-item").css({
+						"width" : get + "%",
+						"float" : "right"
+					});
+
+				}
+			});
+		}
+
+		$("#replyDelBtn").on("click", function() {
+
+			var commentId = $(".modal-title").html();
+			var commentContent = $("#commentContent").val();
+			var postId = $("#rePostId").val();
+			$.ajax({
+				type : 'delete',
+				url : '/reply/' + commentId,
+				headers : {
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "DELETE"
+				},
+				dataType : 'text',
+				success : function(result) {
+					console.log("result: " + result);
+					if (result == 'SUCCESS') {
+						alert("삭제 되었습니다.");
+						getCommentPage("/reply/" + postId);
+					}
+				}
+			});
+		});
+
 		/* 게시글 올리기
-			파일 중복업로드 수정 0919
+		파일 중복업로드 수정 0919
 		 */
 		$("#postAddBtn").on(
 				"click",

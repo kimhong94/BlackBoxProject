@@ -77,4 +77,9 @@ public class QnAReplyDAOImpl implements QnAReplyDAO {
 		System.out.println(vo);
 		session.update(namespace+".setCommentGroupId", vo);
 	}
+	
+	@Override
+	public List<QnAReplyVO> getRecentComment(String userNick) throws Exception {
+		return session.selectList(namespace+".getRecentComment", userNick);
+	}
 }

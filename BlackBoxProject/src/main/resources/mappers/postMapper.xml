@@ -42,6 +42,12 @@
 	<update id="modifyPost">
 		UPDATE jnu_post SET post_content = #{postContent}, post_title = #{postTitle} WHERE post_id = #{postId}
 	</update>
+	
+	<update id="updateReplyCnt">
+		update jnu_post set post_replycnt =
+		post_replycnt + #{amount} where post_id = #{postId}
+	</update>
+	
 
 </mapper>
 

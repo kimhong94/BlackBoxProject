@@ -64,4 +64,14 @@ public class PostDAOImpl implements PostDAO {
 		session.update(namespace+".modifyPost", pvo);
 	}
 
+	@Override
+	public void updateReplyCnt(Integer postId, int amount) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("postId", postId);
+		paramMap.put("amount", amount);
+		session.update(namespace + ".updateReplyCnt", paramMap);
+	}
+
 }

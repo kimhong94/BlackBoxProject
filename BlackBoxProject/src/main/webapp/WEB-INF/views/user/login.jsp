@@ -46,6 +46,16 @@
 		if (modifyresult != '') {
 			alert(modifyresult);
 		}
+		
+		
+		var successMsg = '${successMsg}';
+		if (successMsg != '') {
+			alert(successMsg);
+		}
+		var failMsg = '${failMsg}';
+		if (failMsg != '') {
+			alert(failMsg);
+		}
 	</script>
 
 	<%@include file="../include/footer.jsp"%>

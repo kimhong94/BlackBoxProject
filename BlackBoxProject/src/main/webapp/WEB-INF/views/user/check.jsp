@@ -24,17 +24,10 @@
 		<div class="recentReply">
 			<h2>나의 최근 댓글</h2>
 			<ol>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
-				<li>댓글테스트</li>
+				<c:forEach var="comment" items="${comment}">
+				
+							<li><a href="/qnaboard/readPage?qnaPostId=${comment.qnaPostId}">${comment.qnaCommentContent} (${comment.qnaCommentRegdate})</a></li>
+				</c:forEach>
 			</ol>
 		</div>
 	</div>
@@ -45,18 +38,5 @@
 	<!-- iCheck -->
 	<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
-
-	<!-- /.login-box -->
-	<script>
-		var result = '${msg}';
-
-		if (result == 'SUCCESS') {
-			alert("처리가 완료되었습니다.");
-			location.replace(self.location);
-		} else if (result == 'FAIL') {
-			alert("교과목 가져오기를 실패했습니다.\n학번과 비밀번호를 확인해주세요.");
-			location.replace(self.location);
-		}
-	</script>
 
 	<%@include file="../include/footer.jsp"%>

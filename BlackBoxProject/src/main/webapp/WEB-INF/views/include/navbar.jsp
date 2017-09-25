@@ -43,6 +43,7 @@
 							<c:if test="${login.userId != null}">
 								<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="/user/mypage">My Page <span class="caret"></span></a>
 									<ul class="dropdown-menu">
+										<li><a href="/user/check">내 게시판</a></li>
 										<li><a href="/qnaboard/list">질문과 답변</a></li>
 										<li><a href="/user/modify">내 계정 변경</a></li>
 										<li><a href="/user/delete">내 계정 삭제</a></li>
@@ -56,5 +57,3 @@
 
 		</div>
 	</div>
-	
-	

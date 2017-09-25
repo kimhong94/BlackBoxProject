@@ -2,8 +2,6 @@ package com.blackboxproject.persistence;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import com.blackboxproject.domain.FileVO;
 import com.blackboxproject.domain.PostVO;
 
@@ -23,5 +21,6 @@ public interface PostDAO {
 	public void updatePostView(int postId);
 
 	public void modifyPost(PostVO pvo);
-	
+
+	public void updateReplyCnt(Integer postId, int amount) throws Exception;
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackboxproject.mapper.CommentMapper">
+
+	<!-- 댓글 리스트 보여주기 -->
+	<select id="listPage" resultType="CommentVO">
+		select * from jnu_comment
+		where
+		post_id = #{postId}
+		order by comment_group_id asc,
+		comment_step asc
+
+	</select>
+
+
+	<!-- 총 댓글 개수 가져오기 -->
+	<select id="count" resultType="int">
+		select count(post_id) from
+		jnu_comment
+		where post_id = #{postId}
+	</select>
+
+	<!-- 일반 댓글 생성하기 -->
+	<insert id="create">
+		insert into jnu_comment (post_id,
+		comment_content,
+		user_nick,
+		comment_group_id)
+		values
+		(#{postId}, #{commentContent},
+		#{userNick},
+		#{commentGroupId})
+	</insert>
+
+	<!-- 그룹 id 가져오기 -->
+	<select id="getSeq" resultType="int">
+		select max(comment_id) from
+		jnu_comment
+	</select>
+
+	<!-- 재 댓글 생성하기 -->
+	<insert id="createRe">
+	<![CDATA[
+		insert into jnu_comment (post_id, comment_content, user_nick,
+		comment_group_id, comment_step, comment_indent)
+		values (#{postId}, #{commentContent}, #{userNick},
+		#{commentGroupId},#{commentStep}+1, #{commentIndent}+1)
+	]]>
+	</insert>
+
+	<!-- 댓글 모양 정렬하기 -->
+	<update id="reShape">
+	
+		<![CDATA[
+		update jnu_comment set comment_step = comment_step+1 where comment_group_id = #{commentGroupId} and comment_step > #{commentStep}
+		]]>
+	</update>
+
+	<!-- 댓글 수정하기 -->
+	<update id="update">
+		update jnu_comment
+		set comment_content =
+		#{commentContent},
+		comment_update_date
+		= now()
+		where
+		comment_id=
+		#{commentId}
+	</update>
+
+	<!-- 댓글 삭제하기 -->
+	<delete id="delete">
+		delete from jnu_comment where comment_id =
+		#{commentId}
+	</delete>
+
+	<select id="getPostId" resultType="int">
+		select post_id from
+		jnu_comment where comment_id = #{commentId}
+	</select>
+
+
+	<update id="setCommentGroupId">
+		update jnu_comment set comment_group_id =
+		#{commentGroupId} where
+		comment_id = #{commentId}
+	</update>
+
+	<select id="getRecentComment" resultType="CommentVO">
+		select * from
+		jnu_comment as c inner join jnu_post as p
+		where p.board_id=2 and p.user_nick=c.user_nick=#{userNick}
+		order by comment_regdate desc
+	</select>
+
+</mapper>
+
+

@@ -258,8 +258,7 @@
 			target.after(html);
 		}
 
-		var qnaPostId = ${qnABoardVO.qnaPostId
-		};
+		var qnaPostId = ${qnABoardVO.qnaPostId};
 
 		var replyPage = 1;
 
@@ -451,6 +450,7 @@
 			});
 		}
 
+		
 		$("#replyDelBtn").on("click", function() {
 
 			var qnaCommentId = $(".modal-title").html();
