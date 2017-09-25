@@ -23,5 +23,11 @@ public interface PostDAO {
 	public void updatePostView(int postId);
 
 	public void modifyPost(PostVO pvo);
+
+	public FileVO getImageDirectory(int postId);
+
+	public List<PostVO> getLectureList(int courseId);
+
+	public FileVO getFilePathForLecture(int postId) throws Exception;
 	
 }

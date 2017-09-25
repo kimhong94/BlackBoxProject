@@ -64,4 +64,20 @@ public class PostDAOImpl implements PostDAO {
 		session.update(namespace+".modifyPost", pvo);
 	}
 
+	@Override
+	public FileVO getImageDirectory(int postId) {
+		
+		return session.selectOne(namespace+".getImageDirectory", postId);
+	}
+
+	@Override
+	public List<PostVO> getLectureList(int courseId) {
+		return session.selectList(namespace+".getLectureList", courseId);
+	}
+
+	@Override
+	public FileVO getFilePathForLecture(int postId) throws Exception {
+		return session.selectOne(namespace+".getFilePathForLecture", postId);
+	}
+
 }
